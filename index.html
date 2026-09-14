@@ -45,7 +45,7 @@
         .header {
             background-color: var(--carvajal-blue);
             color: #FFFFFF;
-            padding: 20px 16px;
+            padding: 18px 16px;
             border-bottom: 4px solid var(--carvajal-orange);
             display: flex;
             align-items: center;
@@ -70,25 +70,23 @@
             margin-top: 2px;
         }
 
-        /* Ajuste óptico perfecto para el logo recortado a la derecha */
+        /* Envoltorio del Logo */
         .logo-container {
-            width: 55px;
-            height: 55px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            width: 48px;
+            height: 48px;
             background: #FFFFFF;
             border-radius: 8px;
             padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            flex-shrink: 0;
         }
 
-        .header-logo {
-            width: 180px;
-            height: 180px;
-            object-fit: contain;
-            object-position: right center;
+        .logo-container svg {
+            width: 100%;
+            height: 100%;
         }
 
         .form-section {
@@ -393,8 +391,16 @@
             <h1>Carvajal Empaques</h1>
             <p>Programa 5S - Inspección y Seguimiento</p>
         </div>
+        <!-- Logo vectorial directo sin requerir archivo externo -->
         <div class="logo-container">
-            <img class="header-logo" src="logo.png" alt="Carvajal Logo">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="5" width="45" height="45" rx="8" fill="#F77F00"/>
+                <rect x="50" y="22" width="45" height="45" rx="8" fill="#7209B7"/>
+                <rect x="12" y="45" width="45" height="45" rx="8" fill="#4EA8DE"/>
+                <rect x="42" y="48" width="50" height="48" rx="8" fill="#80B918"/>
+                <path d="M 52 32 L 28 54 L 52 76 L 72 56 Z" fill="#005696" opacity="0.95"/>
+                <path d="M 38 54 L 62 30 L 76 44 L 52 68 Z" fill="#FFFFFF" opacity="0.9"/>
+            </svg>
         </div>
     </div>
 
