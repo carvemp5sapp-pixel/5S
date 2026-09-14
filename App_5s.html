@@ -48,6 +48,20 @@
             padding: 20px 16px;
             text-align: center;
             border-bottom: 4px solid var(--carvajal-orange);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header-logo {
+            max-height: 50px;
+            max-width: 180px;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
         .header h1 {
@@ -60,7 +74,6 @@
         .header p {
             font-size: 12px;
             opacity: 0.85;
-            margin-top: 4px;
             font-weight: 300;
         }
 
@@ -362,8 +375,12 @@
 
 <div class="app-container">
     <div class="header">
-        <h1>Carvajal Empaques</h1>
-        <p>Programa 5S - Inspección y Seguimiento</p>
+        <!-- Puedes reemplazar 'logo.png' por la ruta de tu imagen de logo o pegar la imagen aquí -->
+        <img id="appLogo" class="header-logo" src="logo.png" alt="Logo Empresa" style="display:none;" onerror="this.style.display='none'">
+        <div>
+            <h1>Carvajal Empaques</h1>
+            <p>Programa 5S - Inspección y Seguimiento</p>
+        </div>
     </div>
 
     <!-- FORMULARIO PRINCIPAL -->
@@ -388,7 +405,8 @@
             <label>Fotografía del antes (estado inicial):</label>
             <div class="photo-uploader-box" onclick="document.getElementById('fotoAntes').click()">
                 <span class="btn-photo">Tomar o cargar fotografía</span>
-                <input type="file" id="fotoAntes" accept="image/*" capture="environment" onchange="previewImage(event, 'imgAntes')">
+                <!-- Configuración compatible con Android e iOS -->
+                <input type="file" id="fotoAntes" accept="image/*" onchange="previewImage(event, 'imgAntes')">
                 <img id="imgAntes" class="preview-image" alt="Previsualización antes">
             </div>
         </div>
@@ -428,7 +446,7 @@
             <label>Fotografía del después (estado final):</label>
             <div class="photo-uploader-box" onclick="document.getElementById('fotoDespuesInput').click()">
                 <span class="btn-photo">Tomar fotografía del después</span>
-                <input type="file" id="fotoDespuesInput" accept="image/*" capture="environment" onchange="previewImage(event, 'imgDespuesPreview')">
+                <input type="file" id="fotoDespuesInput" accept="image/*" onchange="previewImage(event, 'imgDespuesPreview')">
                 <img id="imgDespuesPreview" class="preview-image" alt="Previsualización después">
             </div>
         </div>
