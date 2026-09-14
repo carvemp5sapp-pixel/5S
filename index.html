@@ -16,6 +16,7 @@
             --border-color: #E9ECEF;
             --badge-pending: #F77F00;
             --badge-success: #2A9D8F;
+            --danger-color: #D90429;
         }
 
         * {
@@ -70,13 +71,13 @@
             margin-top: 2px;
         }
 
-        /* Contenedor e Imagen del Logo desde logo.png */
+        /* Contenedor adaptado para imagen transparente logo.png */
         .logo-container {
-            width: 52px;
-            height: 52px;
+            width: 55px;
+            height: 55px;
             background: #FFFFFF;
             border-radius: 8px;
-            padding: 4px;
+            padding: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,9 +86,9 @@
         }
 
         .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Garantiza que la imagen encaje completa sin recortarse */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             display: block;
         }
 
@@ -192,6 +193,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .records-title {
@@ -202,14 +205,15 @@
 
         .actions-wrapper {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .btn-toggle {
             background-color: var(--carvajal-dark);
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
@@ -220,7 +224,7 @@
             background-color: transparent;
             color: var(--carvajal-blue);
             border: 1px solid var(--carvajal-blue);
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
@@ -230,6 +234,23 @@
 
         .btn-sync:hover {
             background-color: var(--carvajal-blue);
+            color: white;
+        }
+
+        .btn-clear {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-clear:hover {
+            background-color: var(--danger-color);
             color: white;
         }
 
@@ -393,9 +414,9 @@
             <h1>Carvajal Empaques</h1>
             <p>Programa 5S - Inspección y Seguimiento</p>
         </div>
-        <!-- Carga de logo.png -->
+        <!-- Logo transparente con compatibilidad de ruta relativa -->
         <div class="logo-container">
-            <img src="logo.png" alt="Logo Carvajal Empaques">
+            <img src="./logo.png" alt="Logo Carvajal Empaques" onerror="this.onerror=null; this.src='logo.png';">
         </div>
     </div>
 
@@ -434,13 +455,14 @@
         <button class="btn-save" id="btnGuardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO</button>
     </div>
 
-    <!-- SECCIÓN HISTORIAL OCULTABLE -->
+    <!-- SECCIÓN HISTORIAL OCULTABLE CON BOTONES DE CONTROL -->
     <div class="records-section">
         <div class="records-header">
             <span class="records-title">Historial de registros</span>
             <div class="actions-wrapper">
                 <button class="btn-toggle" id="btnToggleHistorial" onclick="alternarHistorial()">Ver historial</button>
                 <button class="btn-sync" onclick="sincronizarConSheets(true)">Sincronizar</button>
+                <button class="btn-clear" onclick="limpiarMemoriaLocal()">Borrar Memoria</button>
             </div>
         </div>
 
@@ -725,16 +747,16 @@
         fetch(SYNC_API_URL)
             .then(res => res.json())
             .then(data => {
-                if (Array.isArray(data) && data.length > 0) {
+                if (Array.isArray(data)) {
+                    // Actualiza reemplazando con la respuesta del servidor
                     const mapaDatos = new Map();
                     data.reverse().forEach(item => mapaDatos.set(item.id, item));
-                    hallazgos.forEach(item => mapaDatos.set(item.id, item));
                     
                     hallazgos = Array.from(mapaDatos.values());
                     localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
                     renderizarTarjetas();
 
-                    if (mostrarAlerta) alert("Sincronización completada. Se han cargado los registros de todos los usuarios.");
+                    if (mostrarAlerta) alert("Sincronización completada con la base de datos.");
                 } else {
                     if (mostrarAlerta) alert("No hay nuevos registros en la base de datos.");
                 }
@@ -743,6 +765,16 @@
                 console.log("Modo sin conexión o error al consultar la base de datos:", err);
                 if (mostrarAlerta) alert("Error de conexión al sincronizar.");
             });
+    }
+
+    // Nueva función para vaciar memoria interna del teléfono
+    function limpiarMemoriaLocal() {
+        if (confirm("¿Deseas limpiar el historial almacenado en este teléfono? (Esto no afecta la base de datos si ya sincronizaste)")) {
+            localStorage.removeItem('hallazgos5S_carvajal');
+            hallazgos = [];
+            renderizarTarjetas();
+            alert("Memoria local vaciada correctamente.");
+        }
     }
 
     function generarReportePDF() {
