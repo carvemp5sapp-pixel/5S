@@ -46,26 +46,18 @@
             background-color: var(--carvajal-blue);
             color: #FFFFFF;
             padding: 20px 16px;
-            text-align: center;
             border-bottom: 4px solid var(--carvajal-orange);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            justify-content: space-between;
         }
 
-        .header-logo {
-            max-height: 50px;
-            max-width: 180px;
-            object-fit: contain;
-            background: #ffffff;
-            padding: 4px 8px;
-            border-radius: 6px;
+        .header-info {
+            text-align: left;
         }
 
         .header h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -75,6 +67,16 @@
             font-size: 12px;
             opacity: 0.85;
             font-weight: 300;
+            margin-top: 2px;
+        }
+
+        .header-logo {
+            max-height: 48px;
+            max-width: 120px;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 4px 6px;
+            border-radius: 6px;
         }
 
         .form-section {
@@ -375,12 +377,11 @@
 
 <div class="app-container">
     <div class="header">
-        <!-- Puedes reemplazar 'logo.png' por la ruta de tu imagen de logo o pegar la imagen aquí -->
-        <img id="appLogo" class="header-logo" src="logo.png" alt="Logo Empresa" style="display:none;" onerror="this.style.display='none'">
-        <div>
+        <div class="header-info">
             <h1>Carvajal Empaques</h1>
             <p>Programa 5S - Inspección y Seguimiento</p>
         </div>
+        <img class="header-logo" src="logo.png" alt="Carvajal Logo">
     </div>
 
     <!-- FORMULARIO PRINCIPAL -->
@@ -405,7 +406,6 @@
             <label>Fotografía del antes (estado inicial):</label>
             <div class="photo-uploader-box" onclick="document.getElementById('fotoAntes').click()">
                 <span class="btn-photo">Tomar o cargar fotografía</span>
-                <!-- Configuración compatible con Android e iOS -->
                 <input type="file" id="fotoAntes" accept="image/*" onchange="previewImage(event, 'imgAntes')">
                 <img id="imgAntes" class="preview-image" alt="Previsualización antes">
             </div>
@@ -416,7 +416,7 @@
             <textarea id="obsAntes" rows="2" placeholder="Describa el hallazgo detectado en el área..."></textarea>
         </div>
 
-        <button class="btn-save" id="btnGuardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO EN EXCEL</button>
+        <button class="btn-save" id="btnGuardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO</button>
     </div>
 
     <!-- SECCIÓN HISTORIAL OCULTABLE -->
@@ -425,7 +425,7 @@
             <span class="records-title">Historial de registros</span>
             <div class="actions-wrapper">
                 <button class="btn-toggle" id="btnToggleHistorial" onclick="alternarHistorial()">Ver historial</button>
-                <button class="btn-sync" onclick="sincronizarConSheets()">Sincronizar</button>
+                <button class="btn-sync" onclick="sincronizarConSheets(true)">Sincronizar</button>
             </div>
         </div>
 
@@ -434,7 +434,7 @@
         </div>
     </div>
 
-    <button class="btn-pdf" onclick="window.print()">GENERAR REPORTE EN PDF</button>
+    <button class="btn-pdf" onclick="generarReportePDF()">GENERAR REPORTE EN PDF</button>
 </div>
 
 <!-- MODAL PARA COMPLETAR DESPUÉS -->
@@ -456,7 +456,7 @@
             <textarea id="obsDespuesInput" rows="2" placeholder="Describa la acción correctiva ejecutada..."></textarea>
         </div>
 
-        <button class="btn-save" id="btnGuardarModal" onclick="confirmarCompletado()">GUARDAR CAMBIOS EN EXCEL</button>
+        <button class="btn-save" id="btnGuardarModal" onclick="confirmarCompletado()">GUARDAR</button>
         <button class="btn-sync" style="width:100%; margin-top:8px;" onclick="cerrarModal()">Cancelar</button>
     </div>
 </div>
@@ -469,7 +469,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         renderizarTarjetas();
-        sincronizarConSheets();
+        sincronizarConSheets(false);
     });
 
     function alternarHistorial() {
@@ -592,7 +592,7 @@
 
         const btnGuardar = document.getElementById('btnGuardar');
         btnGuardar.disabled = true;
-        btnGuardar.innerText = "GUARDANDO EN EXCEL...";
+        btnGuardar.innerText = "GUARDANDO...";
 
         const nuevoHallazgo = {
             id: String(Date.now()),
@@ -608,7 +608,7 @@
 
         enviarAGoogleSheets(nuevoHallazgo, function(exito) {
             btnGuardar.disabled = false;
-            btnGuardar.innerText = "GUARDAR HALLAZGO EN EXCEL";
+            btnGuardar.innerText = "GUARDAR HALLAZGO";
 
             if (exito) {
                 hallazgos.unshift(nuevoHallazgo);
@@ -621,9 +621,10 @@
                 imgAntesEl.src = '';
                 document.getElementById('fotoAntes').value = '';
 
-                alert('El hallazgo se ha guardado correctamente en la hoja de cálculo.');
+                alert('El hallazgo se ha guardado correctamente.');
+                sincronizarConSheets(false);
             } else {
-                alert('No se pudo guardar en Google Sheets. Verifique la conexión a internet.');
+                alert('No se pudo guardar la información. Verifique la conexión a internet.');
             }
         });
     }
@@ -649,7 +650,7 @@
 
         const btnModal = document.getElementById('btnGuardarModal');
         btnModal.disabled = true;
-        btnModal.innerText = "ACTUALIZANDO EN EXCEL...";
+        btnModal.innerText = "ACTUALIZANDO...";
 
         const index = hallazgos.findIndex(h => h.id == idSeleccionadoParaCompletar);
         if (index !== -1) {
@@ -661,7 +662,7 @@
 
             enviarAGoogleSheets(copiaActualizada, function(exito) {
                 btnModal.disabled = false;
-                btnModal.innerText = "GUARDAR CAMBIOS EN EXCEL";
+                btnModal.innerText = "GUARDAR";
 
                 if (exito) {
                     hallazgos[index] = copiaActualizada;
@@ -674,9 +675,10 @@
                     document.getElementById('fotoDespuesInput').value = '';
                     cerrarModal();
 
-                    alert('La mejora se ha actualizado y guardado en Excel correctamente.');
+                    alert('La mejora se ha guardado correctamente.');
+                    sincronizarConSheets(false);
                 } else {
-                    alert('Error al actualizar en Google Sheets. Intente nuevamente.');
+                    alert('Error al actualizar en la base de datos. Intente nuevamente.');
                 }
             });
         }
@@ -699,22 +701,42 @@
             }
         })
         .catch(err => {
-            console.error("Error al enviar a Sheets:", err);
+            console.error("Error al enviar datos:", err);
             callback(false);
         });
     }
 
-    function sincronizarConSheets() {
+    function sincronizarConSheets(mostrarAlerta = false) {
         fetch(SYNC_API_URL)
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
-                    hallazgos = data.reverse();
+                    // Fusionar datos locales con los datos remotos globales sin perder nada
+                    const mapaDatos = new Map();
+                    data.reverse().forEach(item => mapaDatos.set(item.id, item));
+                    hallazgos.forEach(item => mapaDatos.set(item.id, item));
+                    
+                    hallazgos = Array.from(mapaDatos.values());
                     localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
                     renderizarTarjetas();
+
+                    if (mostrarAlerta) alert("Sincronización completada. Se han cargado los registros de todos los usuarios.");
+                } else {
+                    if (mostrarAlerta) alert("No hay nuevos registros en la base de datos.");
                 }
             })
-            .catch(err => console.log("Modo sin conexión o error al consultar Sheets:", err));
+            .catch(err => {
+                console.log("Modo sin conexión o error al consultar la base de datos:", err);
+                if (mostrarAlerta) alert("Error de conexión al sincronizar.");
+            });
+    }
+
+    function generarReportePDF() {
+        // Asegurar la sincronización completa antes de imprimir para mostrar los datos de todos los usuarios
+        sincronizarConSheets(false);
+        const contenedor = document.getElementById('contenedorHistorial');
+        contenedor.style.display = 'block';
+        window.print();
     }
 </script>
 
