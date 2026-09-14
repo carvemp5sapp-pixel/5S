@@ -410,7 +410,7 @@
             <h1>Carvajal Empaques</h1>
             <p>Programa 5S - Inspección y Seguimiento</p>
         </div>
-        <!-- Logo transparente con auto-detección de variaciones de nombre -->
+        <!-- Logo con auto-detección de extensión/mayúsculas -->
         <div class="logo-container">
             <img id="imgLogoHeader" src="logo.png" alt="Logo Carvajal Empaques" onerror="intentarSiguienteRuta(this);">
         </div>
@@ -438,7 +438,8 @@
             <label>Fotografía del antes (estado inicial):</label>
             <div class="photo-uploader-box" onclick="document.getElementById('fotoAntes').click()">
                 <span class="btn-photo">Tomar o cargar fotografía</span>
-                <input type="file" id="fotoAntes" accept="image/*" onchange="previewImage(event, 'imgAntes')">
+                <!-- Inclusión de capture="environment" para Android -->
+                <input type="file" id="fotoAntes" accept="image/*" capture="environment" onchange="previewImage(event, 'imgAntes')">
                 <img id="imgAntes" class="preview-image" alt="Previsualización antes">
             </div>
         </div>
@@ -479,7 +480,8 @@
             <label>Fotografía del después (estado final):</label>
             <div class="photo-uploader-box" onclick="document.getElementById('fotoDespuesInput').click()">
                 <span class="btn-photo">Tomar fotografía del después</span>
-                <input type="file" id="fotoDespuesInput" accept="image/*" onchange="previewImage(event, 'imgDespuesPreview')">
+                <!-- Inclusión de capture="environment" para Android -->
+                <input type="file" id="fotoDespuesInput" accept="image/*" capture="environment" onchange="previewImage(event, 'imgDespuesPreview')">
                 <img id="imgDespuesPreview" class="preview-image" alt="Previsualización después">
             </div>
         </div>
@@ -500,7 +502,6 @@
     let hallazgos = JSON.parse(localStorage.getItem('hallazgos5S_carvajal')) || [];
     let idSeleccionadoParaCompletar = null;
 
-    // Función inteligente para buscar el nombre de la imagen si varía en mayúsculas/minúsculas
     let intentoLogo = 0;
     const variacionesLogo = ["./logo.png", "Logo.png", "logo.PNG", "LOGO.PNG", "./Logo.png"];
     function intentarSiguienteRuta(imgElement) {
@@ -508,7 +509,7 @@
             imgElement.src = variacionesLogo[intentoLogo];
             intentoLogo++;
         } else {
-            imgElement.style.display = 'none'; // oculta la imagen si definitivamente no existe en el server
+            imgElement.style.display = 'none';
         }
     }
 
