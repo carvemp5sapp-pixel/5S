@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jornada 5S - Carvajal Empaques</title>
+    <style>
+        :root {
+            --carvajal-blue: #005696;
+            --carvajal-dark: #002D62;
+            --carvajal-orange: #E85D04;
+            --bg-light: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --text-main: #2B2D42;
+            --text-muted: #6C757D;
+            --border-color: #E9ECEF;
+            --badge-pending: #F77F00;
+            --badge-success: #2A9D8F;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            padding: 12px;
+            font-size: 14px;
+        }
+
+        .app-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            background-color: var(--carvajal-blue);
+            color: #FFFFFF;
+            padding: 20px 16px;
+            text-align: center;
+            border-bottom: 4px solid var(--carvajal-orange);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 4px;
+            font-weight: 300;
+        }
+
+        .form-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--carvajal-dark);
+            margin-bottom: 6px;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #CED4DA;
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-main);
+            background-color: #FFFFFF;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--carvajal-blue);
+        }
+
+        .photo-uploader-box {
+            border: 1.5px dashed #ADB5BD;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            background-color: #F8F9FA;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .photo-uploader-box:hover {
+            background-color: #E9ECEF;
+        }
+
+        .btn-photo {
+            display: inline-block;
+            background-color: #495057;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-save {
+            width: 100%;
+            background-color: var(--carvajal-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-save:hover {
+            background-color: var(--carvajal-dark);
+        }
+
+        .btn-save:disabled {
+            background-color: #ADB5BD;
+            cursor: not-allowed;
+        }
+
+        .records-section {
+            padding: 20px;
+            background-color: #FAFAFA;
+        }
+
+        .records-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .records-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--carvajal-dark);
+        }
+
+        .actions-wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-toggle {
+            background-color: var(--carvajal-dark);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-sync {
+            background-color: transparent;
+            color: var(--carvajal-blue);
+            border: 1px solid var(--carvajal-blue);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-sync:hover {
+            background-color: var(--carvajal-blue);
+            color: white;
+        }
+
+        .records-content {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .card-code {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--carvajal-blue);
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .badge-pending { background-color: var(--badge-pending); }
+        .badge-completed { background-color: var(--badge-success); }
+
+        .card-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-photo-box {
+            text-align: center;
+            background: #F8F9FA;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-photo-box label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .card-photo-box img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .obs-text {
+            font-size: 12px;
+            color: var(--text-main);
+            margin-top: 6px;
+            text-align: left;
+            background: #FFF;
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #E9ECEF;
+        }
+
+        .btn-complete-card {
+            width: 100%;
+            background-color: var(--carvajal-orange);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .btn-pdf {
+            width: calc(100% - 40px);
+            margin: 10px 20px 20px 20px;
+            background-color: var(--carvajal-dark);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--carvajal-dark);
+            margin-bottom: 12px;
+        }
+
+        input[type="file"] { display: none; }
+
+        @media print {
+            .header, .form-section, .records-header, .btn-complete-card, .btn-pdf, .modal { display: none !important; }
+            .records-content { display: block !important; }
+            body { background: white; padding: 0; }
+            .app-container { border: none; box-shadow: none; max-width: 100%; }
+            .card { break-inside: avoid; border: 1px solid #CCC; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>Carvajal Empaques</h1>
+        <p>Programa 5S - Inspección y Seguimiento</p>
+    </div>
+
+    <!-- FORMULARIO PRINCIPAL -->
+    <div class="form-section">
+        <div class="form-group">
+            <label for="codigo">Código de máquina o área:</label>
+            <input type="text" id="codigo" placeholder="Ejemplo: MQ35038 o Empacadora 1">
+        </div>
+
+        <div class="form-group">
+            <label for="etapa5s">Etapa 5S:</label>
+            <select id="etapa5s">
+                <option value="1S - Seiri (Clasificar)">1S - Seiri (Clasificar)</option>
+                <option value="2S - Seiton (Ordenar)">2S - Seiton (Ordenar)</option>
+                <option value="3S - Seiso (Limpiar)">3S - Seiso (Limpiar)</option>
+                <option value="4S - Seiketsu (Estandarizar)">4S - Seiketsu (Estandarizar)</option>
+                <option value="5S - Shitsuke (Disciplina)">5S - Shitsuke (Disciplina)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Fotografía del antes (estado inicial):</label>
+            <div class="photo-uploader-box" onclick="document.getElementById('fotoAntes').click()">
+                <span class="btn-photo">Tomar o cargar fotografía</span>
+                <input type="file" id="fotoAntes" accept="image/*" capture="environment" onchange="previewImage(event, 'imgAntes')">
+                <img id="imgAntes" class="preview-image" alt="Previsualización antes">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="obsAntes">Observaciones o hallazgo inicial:</label>
+            <textarea id="obsAntes" rows="2" placeholder="Describa el hallazgo detectado en el área..."></textarea>
+        </div>
+
+        <button class="btn-save" id="btnGuardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO EN EXCEL</button>
+    </div>
+
+    <!-- SECCIÓN HISTORIAL OCULTABLE -->
+    <div class="records-section">
+        <div class="records-header">
+            <span class="records-title">Historial de registros</span>
+            <div class="actions-wrapper">
+                <button class="btn-toggle" id="btnToggleHistorial" onclick="alternarHistorial()">Ver historial</button>
+                <button class="btn-sync" onclick="sincronizarConSheets()">Sincronizar</button>
+            </div>
+        </div>
+
+        <div class="records-content" id="contenedorHistorial">
+            <div id="contenedorTarjetas"></div>
+        </div>
+    </div>
+
+    <button class="btn-pdf" onclick="window.print()">GENERAR REPORTE EN PDF</button>
+</div>
+
+<!-- MODAL PARA COMPLETAR DESPUÉS -->
+<div class="modal" id="modalDespues">
+    <div class="modal-content">
+        <div class="modal-title">Completar registro 5S (después)</div>
+        
+        <div class="form-group">
+            <label>Fotografía del después (estado final):</label>
+            <div class="photo-uploader-box" onclick="document.getElementById('fotoDespuesInput').click()">
+                <span class="btn-photo">Tomar fotografía del después</span>
+                <input type="file" id="fotoDespuesInput" accept="image/*" capture="environment" onchange="previewImage(event, 'imgDespuesPreview')">
+                <img id="imgDespuesPreview" class="preview-image" alt="Previsualización después">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="obsDespuesInput">Observaciones de la mejora:</label>
+            <textarea id="obsDespuesInput" rows="2" placeholder="Describa la acción correctiva ejecutada..."></textarea>
+        </div>
+
+        <button class="btn-save" id="btnGuardarModal" onclick="confirmarCompletado()">GUARDAR CAMBIOS EN EXCEL</button>
+        <button class="btn-sync" style="width:100%; margin-top:8px;" onclick="cerrarModal()">Cancelar</button>
+    </div>
+</div>
+
+<script>
+    const SYNC_API_URL = "https://script.google.com/macros/s/AKfycbysWNN1TxlKwyLF5h6m7SbgbElEo38kJgnhMRSFdopsl2oBemqy3NeMb_EV8YcxkxdA6w/exec";
+
+    let hallazgos = JSON.parse(localStorage.getItem('hallazgos5S_carvajal')) || [];
+    let idSeleccionadoParaCompletar = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderizarTarjetas();
+        sincronizarConSheets();
+    });
+
+    function alternarHistorial() {
+        const contenedor = document.getElementById('contenedorHistorial');
+        const boton = document.getElementById('btnToggleHistorial');
+        
+        if (contenedor.style.display === 'block') {
+            contenedor.style.display = 'none';
+            boton.innerText = 'Ver historial';
+        } else {
+            contenedor.style.display = 'block';
+            boton.innerText = 'Ocultar historial';
+        }
+    }
+
+    function redimensionarImagen(file, callback) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                const maxDim = 600;
+
+                if (width > height) {
+                    if (width > maxDim) {
+                        height *= maxDim / width;
+                        width = maxDim;
+                    }
+                } else {
+                    if (height > maxDim) {
+                        width *= maxDim / height;
+                        height = maxDim;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+                callback(canvas.toDataURL("image/jpeg", 0.6));
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function previewImage(event, imgId) {
+        const file = event.target.files[0];
+        if (file) {
+            redimensionarImagen(file, function(base64Data) {
+                const img = document.getElementById(imgId);
+                img.src = base64Data;
+                img.style.display = 'block';
+            });
+        }
+    }
+
+    function renderizarTarjetas() {
+        const contenedor = document.getElementById('contenedorTarjetas');
+        contenedor.innerHTML = '';
+
+        if (hallazgos.length === 0) {
+            contenedor.innerHTML = '<p style="text-align:center; color:#888; padding:20px; font-size:13px;">No hay hallazgos registrados aún.</p>';
+            return;
+        }
+
+        hallazgos.forEach((item) => {
+            const esCompletado = (item.fotoDespues && item.fotoDespues !== "") ? true : false;
+            
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-top">
+                    <span class="card-code">${item.codigo}</span>
+                    <span class="badge ${esCompletado ? 'badge-completed' : 'badge-pending'}">
+                        ${esCompletado ? 'Completado' : 'Pendiente'}
+                    </span>
+                </div>
+                <div class="card-meta">
+                    <b>Etapa:</b> ${item.etapa} | <b>Fecha:</b> ${item.fechaAntes}
+                </div>
+                <div class="card-grid">
+                    <div class="card-photo-box">
+                        <label>Antes</label>
+                        <img src="${item.fotoAntes}">
+                        <div class="obs-text">${item.obsAntes}</div>
+                    </div>
+                    <div class="card-photo-box">
+                        <label>Después</label>
+                        ${esCompletado ? 
+                            `<img src="${item.fotoDespues}">
+                             <div class="obs-text">${item.obsDespues || ''}</div>` : 
+                            `<div style="height:120px; display:flex; align-items:center; justify-content:center; color:#AAA; font-style:italic; font-size:12px;">Pendiente por cargar fotografía</div>`
+                        }
+                    </div>
+                </div>
+                ${!esCompletado ? `<button class="btn-complete-card" onclick="abrirModalDespues('${item.id}')">AGREGAR FOTOGRAFÍA DEL DESPUÉS</button>` : ''}
+            `;
+            contenedor.appendChild(card);
+        });
+    }
+
+    function guardarNuevoHallazgo() {
+        const codigo = document.getElementById('codigo').value.trim();
+        const etapa = document.getElementById('etapa5s').value;
+        const imgAntesEl = document.getElementById('imgAntes');
+        const obsAntes = document.getElementById('obsAntes').value.trim();
+
+        if (!codigo) {
+            alert('Ingrese el código de máquina o área.');
+            return;
+        }
+
+        if (imgAntesEl.style.display === 'none' || !imgAntesEl.src) {
+            alert('Por favor tome o cargue la fotografía del antes.');
+            return;
+        }
+
+        const btnGuardar = document.getElementById('btnGuardar');
+        btnGuardar.disabled = true;
+        btnGuardar.innerText = "GUARDANDO EN EXCEL...";
+
+        const nuevoHallazgo = {
+            id: String(Date.now()),
+            codigo: codigo,
+            etapa: etapa,
+            fotoAntes: imgAntesEl.src,
+            obsAntes: obsAntes || 'Sin observaciones.',
+            fechaAntes: new Date().toLocaleDateString(),
+            fotoDespues: "",
+            obsDespues: "",
+            fechaDespues: ""
+        };
+
+        enviarAGoogleSheets(nuevoHallazgo, function(exito) {
+            btnGuardar.disabled = false;
+            btnGuardar.innerText = "GUARDAR HALLAZGO EN EXCEL";
+
+            if (exito) {
+                hallazgos.unshift(nuevoHallazgo);
+                localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
+                renderizarTarjetas();
+
+                document.getElementById('codigo').value = '';
+                document.getElementById('obsAntes').value = '';
+                imgAntesEl.style.display = 'none';
+                imgAntesEl.src = '';
+                document.getElementById('fotoAntes').value = '';
+
+                alert('El hallazgo se ha guardado correctamente en la hoja de cálculo.');
+            } else {
+                alert('No se pudo guardar en Google Sheets. Verifique la conexión a internet.');
+            }
+        });
+    }
+
+    function abrirModalDespues(id) {
+        idSeleccionadoParaCompletar = id;
+        document.getElementById('modalDespues').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalDespues').style.display = 'none';
+        idSeleccionadoParaCompletar = null;
+    }
+
+    function confirmarCompletado() {
+        const imgDespuesEl = document.getElementById('imgDespuesPreview');
+        const obsDespuesText = document.getElementById('obsDespuesInput').value.trim();
+
+        if (imgDespuesEl.style.display === 'none' || !imgDespuesEl.src) {
+            alert('Por favor tome la fotografía del después.');
+            return;
+        }
+
+        const btnModal = document.getElementById('btnGuardarModal');
+        btnModal.disabled = true;
+        btnModal.innerText = "ACTUALIZANDO EN EXCEL...";
+
+        const index = hallazgos.findIndex(h => h.id == idSeleccionadoParaCompletar);
+        if (index !== -1) {
+            const copiaActualizada = Object.assign({}, hallazgos[index], {
+                fotoDespues: imgDespuesEl.src,
+                obsDespues: obsDespuesText || 'Mejora implementada.',
+                fechaDespues: new Date().toLocaleDateString()
+            });
+
+            enviarAGoogleSheets(copiaActualizada, function(exito) {
+                btnModal.disabled = false;
+                btnModal.innerText = "GUARDAR CAMBIOS EN EXCEL";
+
+                if (exito) {
+                    hallazgos[index] = copiaActualizada;
+                    localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
+                    renderizarTarjetas();
+
+                    document.getElementById('obsDespuesInput').value = '';
+                    imgDespuesEl.style.display = 'none';
+                    imgDespuesEl.src = '';
+                    document.getElementById('fotoDespuesInput').value = '';
+                    cerrarModal();
+
+                    alert('La mejora se ha actualizado y guardado en Excel correctamente.');
+                } else {
+                    alert('Error al actualizar en Google Sheets. Intente nuevamente.');
+                }
+            });
+        }
+    }
+
+    function enviarAGoogleSheets(datos, callback) {
+        fetch(SYNC_API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+            body: JSON.stringify(datos)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.result === "success") {
+                callback(true);
+            } else {
+                callback(false);
+            }
+        })
+        .catch(err => {
+            console.error("Error al enviar a Sheets:", err);
+            callback(false);
+        });
+    }
+
+    function sincronizarConSheets() {
+        fetch(SYNC_API_URL)
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    hallazgos = data.reverse();
+                    localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
+                    renderizarTarjetas();
+                }
+            })
+            .catch(err => console.log("Modo sin conexión o error al consultar Sheets:", err));
+    }
+</script>
+
+</body>
+</html>
