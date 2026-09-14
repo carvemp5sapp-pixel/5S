@@ -70,13 +70,25 @@
             margin-top: 2px;
         }
 
+        /* Ajuste óptico perfecto para el logo recortado a la derecha */
+        .logo-container {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #FFFFFF;
+            border-radius: 8px;
+            padding: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
         .header-logo {
-            max-height: 48px;
-            max-width: 120px;
+            width: 180px;
+            height: 180px;
             object-fit: contain;
-            background: #ffffff;
-            padding: 4px 6px;
-            border-radius: 6px;
+            object-position: right center;
         }
 
         .form-section {
@@ -381,7 +393,9 @@
             <h1>Carvajal Empaques</h1>
             <p>Programa 5S - Inspección y Seguimiento</p>
         </div>
-        <img class="header-logo" src="logo.png" alt="Carvajal Logo">
+        <div class="logo-container">
+            <img class="header-logo" src="logo.png" alt="Carvajal Logo">
+        </div>
     </div>
 
     <!-- FORMULARIO PRINCIPAL -->
@@ -711,7 +725,6 @@
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data) && data.length > 0) {
-                    // Fusionar datos locales con los datos remotos globales sin perder nada
                     const mapaDatos = new Map();
                     data.reverse().forEach(item => mapaDatos.set(item.id, item));
                     hallazgos.forEach(item => mapaDatos.set(item.id, item));
@@ -732,7 +745,6 @@
     }
 
     function generarReportePDF() {
-        // Asegurar la sincronización completa antes de imprimir para mostrar los datos de todos los usuarios
         sincronizarConSheets(false);
         const contenedor = document.getElementById('contenedorHistorial');
         contenedor.style.display = 'block';
