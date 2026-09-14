@@ -70,10 +70,10 @@
             margin-top: 2px;
         }
 
-        /* Envoltorio del Logo */
+        /* Contenedor e Imagen del Logo desde logo.png */
         .logo-container {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             background: #FFFFFF;
             border-radius: 8px;
             padding: 4px;
@@ -84,9 +84,11 @@
             flex-shrink: 0;
         }
 
-        .logo-container svg {
+        .logo-container img {
             width: 100%;
             height: 100%;
+            object-fit: contain; /* Garantiza que la imagen encaje completa sin recortarse */
+            display: block;
         }
 
         .form-section {
@@ -391,16 +393,9 @@
             <h1>Carvajal Empaques</h1>
             <p>Programa 5S - Inspección y Seguimiento</p>
         </div>
-        <!-- Logo vectorial directo sin requerir archivo externo -->
+        <!-- Carga de logo.png -->
         <div class="logo-container">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="5" y="5" width="45" height="45" rx="8" fill="#F77F00"/>
-                <rect x="50" y="22" width="45" height="45" rx="8" fill="#7209B7"/>
-                <rect x="12" y="45" width="45" height="45" rx="8" fill="#4EA8DE"/>
-                <rect x="42" y="48" width="50" height="48" rx="8" fill="#80B918"/>
-                <path d="M 52 32 L 28 54 L 52 76 L 72 56 Z" fill="#005696" opacity="0.95"/>
-                <path d="M 38 54 L 62 30 L 76 44 L 52 68 Z" fill="#FFFFFF" opacity="0.9"/>
-            </svg>
+            <img src="logo.png" alt="Logo Carvajal Empaques">
         </div>
     </div>
 
