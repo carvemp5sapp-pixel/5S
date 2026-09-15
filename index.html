@@ -162,7 +162,7 @@
       border: 1px solid #ddd;
     }
 
-    /* ESTILOS DE TARJETAS DE HISTORIAL CON IDENTIFICACIÓN POR COLOR */
+    /* ESTILOS DE HISTORIAL Y COLORES DE ESTADO */
     .hallazgo-card {
       background: white;
       padding: 16px;
@@ -170,16 +170,13 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
     }
 
-    /* ESTADO PENDIENTE - COLOR NARANJA DESTACADO */
     .hallazgo-card.estado-pendiente {
       border-left: 8px solid var(--pending-color);
       background-color: #fffbf7;
     }
 
-    /* ESTADO COMPLETADO - COLOR VERDE */
     .hallazgo-card.estado-completado {
       border-left: 8px solid var(--success-color);
       background-color: #ffffff;
@@ -294,10 +291,6 @@
       cursor: pointer;
       text-transform: uppercase;
       margin-top: 10px;
-    }
-
-    .btn-add-despues:hover {
-      background-color: #bf360c;
     }
 
     .modal {
@@ -422,7 +415,6 @@
 
   </div>
 
-  <!-- MODAL DE DESPUÉS -->
   <div id="modal-despues" class="modal">
     <div class="modal-content">
       <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Completar registro (DESPUÉS)</h3>
@@ -618,7 +610,7 @@
           document.getElementById("obsAntes").value = "";
           fotoInput.value = "";
           document.getElementById("preview-antes").style.display = "none";
-          sincronizarConSheets();
+          await sincronizarConSheets();
         } else {
           alert("Error al guardar: " + res.error);
         }
@@ -643,13 +635,13 @@
         const esPendiente = !item.fotoDespues || String(item.fotoDespues).trim() === "";
         const claseEstado = esPendiente ? "estado-pendiente" : "estado-completado";
         const badgeEstado = esPendiente 
-          ? `<span class="badge-status status-pendiente">⚠️ PENDIENTE - FALTA DESPUÉS</span>`
-          : `<span class="badge-status status-completado">✅ COMPLETADO</span>`;
+          ? `<span class="badge-status status-pendiente">PENDIENTE - FALTA DESPUÉS</span>`
+          : `<span class="badge-status status-completado">COMPLETADO</span>`;
 
         return `
           <div class="hallazgo-card ${claseEstado}">
             <div class="hallazgo-header">
-              <span class="ubicacion">📍 ${item.codigo}</span>
+              <span class="ubicacion">Área / Código: ${item.codigo}</span>
               <span class="etapa">${item.etapa}</span>
             </div>
             
@@ -692,7 +684,6 @@
       document.getElementById("preview-despues").style.display = "none";
     }
 
-    // CORRECCIÓN EXACTA PARA ACTUALIZACIÓN DEL DESPUÉS EN GOOGLE SHEETS
     async function guardarDespues() {
       const id = document.getElementById("modal-id").value;
       const obsDespues = document.getElementById("obsDespues").value.trim();
@@ -728,7 +719,7 @@
         if (res.result === "success") {
           alert("Foto del DESPUÉS guardada exitosamente.");
           cerrarModal();
-          await sincronizarConSheets(); // Refresca los registros directamente desde Google Sheets
+          await sincronizarConSheets();
         } else {
           alert("Error al actualizar: " + res.error);
         }
