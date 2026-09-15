@@ -10,8 +10,7 @@
       --secondary-color: #f4f6f9;
       --accent-color: #003B66;
       --text-color: #333;
-      --success-color: #28a745;
-      --danger-color: #dc3545;
+      --border-color: #e0e0e0;
     }
 
     body {
@@ -29,18 +28,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .header-logo {
-      height: 45px;
+      height: 40px;
       width: auto;
       background: transparent;
       border: none;
@@ -58,13 +57,13 @@
       background: white;
       padding: 25px;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-top: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin-top: 20px;
       text-align: center;
     }
 
     .login-logo {
-      max-height: 70px;
+      max-height: 60px;
       margin-bottom: 15px;
       background: transparent;
       object-fit: contain;
@@ -73,51 +72,55 @@
     #login-screen h2 {
       color: var(--primary-color);
       margin-top: 0;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
 
     /* FORMULARIOS Y TARJETAS */
     .card {
       background: white;
       border-radius: 8px;
-      padding: 15px;
+      padding: 20px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1px solid var(--border-color);
     }
 
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       text-align: left;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      color: #444;
     }
 
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
       box-sizing: border-box;
       font-size: 0.95rem;
+      background-color: #fafafa;
     }
 
     .btn {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       background-color: var(--primary-color);
       color: white;
       font-weight: bold;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       cursor: pointer;
       margin-top: 5px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .btn:hover {
@@ -125,77 +128,128 @@
     }
 
     .btn-secondary {
-      background-color: #6c757d;
+      background-color: #5a6268;
     }
 
     .btn-logout {
       background: transparent;
       border: 1px solid white;
       color: white;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 4px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       cursor: pointer;
       text-transform: uppercase;
     }
 
     .user-bar {
       background: #e9ecef;
-      padding: 8px 15px;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.85rem;
-      font-weight: bold;
+      font-weight: 600;
+      border-bottom: 1px solid #ddd;
     }
 
-    /* IMÁGENES */
     .img-preview {
       width: 100%;
-      max-height: 200px;
+      max-height: 220px;
       object-fit: cover;
-      border-radius: 5px;
-      margin-top: 8px;
+      border-radius: 6px;
+      margin-top: 10px;
       display: none;
+      border: 1px solid #ddd;
     }
 
-    /* HISTORIAL DE HALLAZGOS */
+    /* TARJETAS DEL HISTORIAL DE REGISTROS (CORREGIDAS) */
     .hallazgo-card {
-      border-left: 4px solid var(--primary-color);
       background: white;
-      padding: 12px;
-      margin-bottom: 12px;
-      border-radius: 4px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border-left: 5px solid var(--primary-color);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      border-top: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .hallazgo-header {
       display: flex;
       justify-content: space-between;
-      font-weight: bold;
+      align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
       margin-bottom: 8px;
     }
 
-    .grid-img {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
+    .hallazgo-header .ubicacion {
+      font-weight: bold;
+      font-size: 0.95rem;
+      color: #111;
     }
 
-    .grid-img img {
-      width: 100%;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 4px;
+    .hallazgo-header .etapa {
+      font-size: 0.8rem;
+      background-color: #eaf2f8;
+      color: var(--primary-color);
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
     }
 
     .badge-user {
       font-size: 0.75rem;
       color: #666;
       display: block;
-      margin-top: 5px;
-      font-style: italic;
+      margin-bottom: 12px;
+    }
+
+    /* CONTENEDOR DE FOTOS DEL HISTORIAL */
+    .grid-img {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    @media (min-width: 480px) {
+      .grid-img {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+    }
+
+    .bloque-foto {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #eaeaea;
+    }
+
+    .bloque-foto strong {
+      display: block;
+      font-size: 0.75rem;
+      color: #555;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .bloque-foto img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .bloque-foto p {
+      font-size: 0.85rem;
+      margin: 8px 0 0 0;
+      color: #333;
+      word-break: break-word;
     }
 
     /* MODAL */
@@ -214,7 +268,7 @@
       padding: 20px;
       border-radius: 8px;
       width: 90%;
-      max-width: 500px;
+      max-width: 480px;
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -230,7 +284,7 @@
       .hallazgo-card {
         page-break-inside: avoid;
         border: 1px solid #ccc;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
       }
     }
   </style>
@@ -275,7 +329,7 @@
 
       <!-- FORMULARIO DE REGISTRO INICIAL (ANTES) -->
       <div class="card">
-        <h3 style="margin-top:0; color: var(--primary-color);">Registrar nuevo hallazgo</h3>
+        <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Registrar nuevo hallazgo</h3>
 
         <div class="form-group">
           <label>Código de máquina o área:</label>
@@ -310,15 +364,15 @@
       <!-- ACCIONES DE SINCRONIZACIÓN Y NAVEGACIÓN -->
       <div class="action-buttons" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
         <div style="display: flex; gap: 10px;">
-          <button class="btn btn-secondary" onclick="sincronizarConSheets()" style="font-size: 0.85rem;">Sincronizar datos</button>
-          <button class="btn btn-secondary" onclick="exportarPDF()" style="font-size: 0.85rem;">Exportar a PDF</button>
+          <button class="btn btn-secondary" onclick="sincronizarConSheets()" style="font-size: 0.8rem;">Sincronizar datos</button>
+          <button class="btn btn-secondary" onclick="exportarPDF()" style="font-size: 0.8rem;">Exportar a PDF</button>
         </div>
-        <button class="btn btn-secondary" id="toggle-historial-btn" onclick="toggleHistorial()" style="font-size: 0.85rem; background-color: #495057;">MOSTRAR HISTORIAL DE REGISTROS</button>
+        <button class="btn btn-secondary" id="toggle-historial-btn" onclick="toggleHistorial()" style="font-size: 0.8rem; background-color: #495057;">MOSTRAR HISTORIAL DE REGISTROS</button>
       </div>
 
       <!-- SECCIÓN DEL HISTORIAL (OCULTA POR DEFECTO) -->
       <div id="contenedor-historial" style="display: none;">
-        <h3 style="color: var(--primary-color);">Historial de registros</h3>
+        <h3 style="color: var(--primary-color); font-size: 1.1rem;">Historial de registros</h3>
         <div id="lista-hallazgos">
           <p style="text-align: center; color: #777;">Cargando registros...</p>
         </div>
@@ -331,7 +385,7 @@
   <!-- MODAL PARA AGREGAR FOTO DESPUÉS -->
   <div id="modal-despues" class="modal">
     <div class="modal-content">
-      <h3 style="margin-top:0; color: var(--primary-color);">Completar registro (DESPUÉS)</h3>
+      <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Completar registro (DESPUÉS)</h3>
       <input type="hidden" id="modal-id">
       
       <div class="form-group">
@@ -443,7 +497,6 @@
       }
     }
 
-    // MANEJO DE IMÁGENES Y COMPRESIÓN
     function previewImagen(input, previewId) {
       const img = document.getElementById(previewId);
       if (input.files && input.files[0]) {
@@ -456,6 +509,7 @@
       }
     }
 
+    // COMPRESIÓN DE IMAGEN A 800PX Y 60% CALIDAD (CORRIGE EL ENVÍO A EXCEL)
     function comprimirImagen(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -466,13 +520,20 @@
           img.onload = () => {
             const canvas = document.createElement("canvas");
             const MAX_WIDTH = 800;
-            const scaleSize = MAX_WIDTH / img.width;
-            canvas.width = (img.width > MAX_WIDTH) ? MAX_WIDTH : img.width;
-            canvas.height = (img.width > MAX_WIDTH) ? (img.height * scaleSize) : img.height;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
 
             const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL("image/jpeg", 0.7));
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", 0.6));
           };
         };
       });
@@ -494,46 +555,48 @@
       btn.disabled = true;
       btn.innerText = "GUARDANDO...";
 
-      let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
-      const nuevoRegistro = {
-        id: "ID_" + Date.now(),
-        codigo: codigo,
-        etapa: etapa,
-        fotoAntes: fotoBase64,
-        obsAntes: obsAntes,
-        fechaAntes: new Date().toLocaleString(),
-        fotoDespues: "",
-        obsDespues: "",
-        fechaDespues: "",
-        usuarioRegistra: currentUser
-      };
-
-      // Guardado local
-      let registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
-      registros.unshift(nuevoRegistro);
-      localStorage.setItem("hallazgos_5s", JSON.stringify(registros));
-      cargarRegistrosLocales();
-
-      // Enviar a Google Sheets
       try {
-        await fetch(WEB_APP_URL, {
+        let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
+        const nuevoRegistro = {
+          id: "ID_" + Date.now(),
+          codigo: codigo,
+          etapa: etapa,
+          fotoAntes: fotoBase64,
+          obsAntes: obsAntes,
+          fechaAntes: new Date().toLocaleString(),
+          fotoDespues: "",
+          obsDespues: "",
+          fechaDespues: "",
+          usuarioRegistra: currentUser
+        };
+
+        // Enviar directamente a Google Sheets
+        const response = await fetch(WEB_APP_URL, {
           method: "POST",
           body: JSON.stringify(nuevoRegistro)
         });
-        alert("Hallazgo guardado exitosamente.");
-        document.getElementById("codigo").value = "";
-        document.getElementById("obsAntes").value = "";
-        fotoInput.value = "";
-        document.getElementById("preview-antes").style.display = "none";
+        
+        const res = await response.json();
+
+        if (res.result === "success") {
+          alert("Hallazgo guardado exitosamente en Excel.");
+          document.getElementById("codigo").value = "";
+          document.getElementById("obsAntes").value = "";
+          fotoInput.value = "";
+          document.getElementById("preview-antes").style.display = "none";
+          sincronizarConSheets(); // Refresca desde el servidor
+        } else {
+          alert("Ocurrió un error al guardar en Excel: " + res.error);
+        }
       } catch (e) {
-        alert("Registro guardado localmente. Se sincronizará al restablecer la conexión.");
+        alert("Error de conexión al intentar enviar a Excel.");
       } finally {
         btn.disabled = false;
         btn.innerText = "GUARDAR HALLAZGO";
       }
     }
 
-    // MANEJO DE HISTORIAL
+    // CARGAR Y RENDERIZAR HISTORIAL DE REGISTROS (DISEÑO MEJORADO)
     function cargarRegistrosLocales() {
       const lista = document.getElementById("lista-hallazgos");
       const registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
@@ -546,24 +609,26 @@
       lista.innerHTML = registros.map(item => `
         <div class="hallazgo-card">
           <div class="hallazgo-header">
-            <span>Ubicación: ${item.codigo}</span>
-            <small style="color:var(--primary-color);">${item.etapa}</small>
+            <span class="ubicacion">📍 ${item.codigo}</span>
+            <span class="etapa">${item.etapa}</span>
           </div>
           <span class="badge-user">Registrado por: ${item.usuarioRegistra || "N/A"}</span>
           
           <div class="grid-img">
-            <div>
-              <strong style="font-size:0.8rem;">ANTES (${item.fechaAntes})</strong>
+            <div class="bloque-foto">
+              <strong>ANTES (${item.fechaAntes})</strong>
               <img src="${item.fotoAntes}">
-              <p style="font-size:0.85rem; margin:3px 0;">${item.obsAntes}</p>
+              <p>${item.obsAntes}</p>
             </div>
-            <div>
-              <strong style="font-size:0.8rem;">DESPUÉS</strong>
+            <div class="bloque-foto">
+              <strong>DESPUÉS</strong>
               ${item.fotoDespues ? `
                 <img src="${item.fotoDespues}">
-                <p style="font-size:0.85rem; margin:3px 0;">${item.obsDespues}</p>
+                <p>${item.obsDespues}</p>
               ` : `
-                <button class="btn btn-secondary" style="font-size:0.75rem; padding:8px; margin-top:15px;" onclick="abrirModalDespues('${item.id}')">Agregar foto del después</button>
+                <div style="text-align:center; padding: 20px 0;">
+                  <button class="btn btn-secondary" style="font-size:0.75rem; padding:10px;" onclick="abrirModalDespues('${item.id}')">Agregar foto del después</button>
+                </div>
               `}
             </div>
           </div>
@@ -598,24 +663,11 @@
       btn.disabled = true;
       btn.innerText = "GUARDANDO...";
 
-      let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
-      const fechaDespues = new Date().toLocaleString();
-
-      // Actualizar Local
-      let registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
-      let item = registros.find(r => r.id === id);
-
-      if (item) {
-        item.fotoDespues = fotoBase64;
-        item.obsDespues = obsDespues;
-        item.fechaDespues = fechaDespues;
-        localStorage.setItem("hallazgos_5s", JSON.stringify(registros));
-        cargarRegistrosLocales();
-      }
-
-      // Actualizar Google Sheets
       try {
-        await fetch(WEB_APP_URL, {
+        let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
+        const fechaDespues = new Date().toLocaleString();
+
+        const response = await fetch(WEB_APP_URL, {
           method: "POST",
           body: JSON.stringify({
             id: id,
@@ -624,22 +676,32 @@
             fechaDespues: fechaDespues
           })
         });
-        alert("Registro actualizado con éxito.");
-        cerrarModal();
+
+        const res = await response.json();
+
+        if (res.result === "success") {
+          alert("Registro actualizado con éxito en Excel.");
+          cerrarModal();
+          sincronizarConSheets(); // Refresca los datos reales del Excel
+        } else {
+          alert("Error al actualizar en Excel: " + res.error);
+        }
       } catch (e) {
-        alert("Cambio guardado localmente.");
+        alert("Error de conexión al enviar cambios.");
       } finally {
         btn.disabled = false;
         btn.innerText = "GUARDAR CAMBIOS";
       }
     }
 
-    // SINCRONIZACIÓN
+    // SINCRONIZACIÓN STRICTA (REEMPLAZA LA MEMORIA LOCAL CON LO QUE HAYA EN EXCEL)
     async function sincronizarConSheets() {
       try {
         const response = await fetch(WEB_APP_URL);
         const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
+        
+        if (Array.isArray(data)) {
+          // Reemplaza 100% el historial local con la lista del Excel
           localStorage.setItem("hallazgos_5s", JSON.stringify(data.reverse()));
           cargarRegistrosLocales();
         }
@@ -652,9 +714,9 @@
     function exportarPDF() {
       const contenedor = document.getElementById("contenedor-historial");
       const estadoPrevio = contenedor.style.display;
-      contenedor.style.display = "block"; // Asegura que el historial sea visible para la impresión
+      contenedor.style.display = "block";
       window.print();
-      contenedor.style.display = estadoPrevio; // Restaura el estado previo
+      contenedor.style.display = estadoPrevio;
     }
   </script>
 </body>
