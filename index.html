@@ -1,796 +1,614 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jornada 5S - Carvajal Empaques</title>
-    <style>
-        :root {
-            --carvajal-blue: #005696;
-            --carvajal-dark: #002D62;
-            --carvajal-orange: #E85D04;
-            --bg-light: #F8F9FA;
-            --card-bg: #FFFFFF;
-            --text-main: #2B2D42;
-            --text-muted: #6C757D;
-            --border-color: #E9ECEF;
-            --badge-pending: #F77F00;
-            --badge-success: #2A9D8F;
-            --danger-color: #D90429;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jornada 5S - Carvajal</title>
+  <style>
+    :root {
+      --primary-color: #005696;
+      --secondary-color: #f4f6f9;
+      --accent-color: #003B66;
+      --text-color: #333;
+      --success-color: #28a745;
+      --danger-color: #dc3545;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            padding: 12px;
-            font-size: 14px;
-        }
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
 
-        .app-container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
 
-        .header {
-            background-color: var(--carvajal-blue);
-            color: #FFFFFF;
-            padding: 18px 16px;
-            border-bottom: 4px solid var(--carvajal-orange);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .header-logo {
+      height: 40px;
+      background-color: white;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
 
-        .header-info {
-            text-align: left;
-        }
+    .container {
+      max-width: 600px;
+      margin: 15px auto;
+      padding: 15px;
+    }
 
-        .header h1 {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+    /* PANTALLA DE LOGIN */
+    #login-screen {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-top: 40px;
+      text-align: center;
+    }
 
-        .header p {
-            font-size: 12px;
-            opacity: 0.85;
-            font-weight: 300;
-            margin-top: 2px;
-        }
+    #login-screen h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
 
-        /* Contenedor sin fondo blanco para logos transparentes */
-        .logo-container {
-            height: 50px;
-            max-width: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+    /* FORMULARIOS Y TARJETAS */
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
 
-        .logo-container img {
-            max-height: 100%;
-            max-width: 100%;
-            object-fit: contain;
-            display: block;
-        }
+    .form-group {
+      margin-bottom: 12px;
+      text-align: left;
+    }
 
-        .form-section {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-        }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-size: 0.95rem;
+    }
 
-        label {
-            display: block;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--carvajal-dark);
-            margin-bottom: 6px;
-        }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 5px;
+    }
 
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #CED4DA;
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-main);
-            background-color: #FFFFFF;
-            transition: border-color 0.2s ease;
-        }
+    .btn:hover {
+      background-color: var(--accent-color);
+    }
 
-        input[type="text"]:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--carvajal-blue);
-        }
+    .btn-secondary {
+      background-color: #6c757d;
+    }
 
-        .photo-uploader-box {
-            border: 1.5px dashed #ADB5BD;
-            border-radius: 8px;
-            padding: 16px;
-            text-align: center;
-            background-color: #F8F9FA;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+    .btn-danger {
+      background-color: var(--danger-color);
+    }
 
-        .photo-uploader-box:hover {
-            background-color: #E9ECEF;
-        }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
 
-        .btn-photo {
-            display: inline-block;
-            background-color: #495057;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+    .user-bar {
+      background: #e9ecef;
+      padding: 8px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
 
-        .preview-image {
-            width: 100%;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 6px;
-            margin-top: 10px;
-            display: none;
-            border: 1px solid var(--border-color);
-        }
+    /* COMPRESIÓN / CARGA DE IMÁGENES */
+    .img-preview {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-top: 8px;
+      display: none;
+    }
 
-        .btn-save {
-            width: 100%;
-            background-color: var(--carvajal-blue);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: background-color 0.2s ease;
-        }
+    /* HISTORIAL / TARJETAS 5S */
+    .hallazgo-card {
+      border-left: 4px solid var(--primary-color);
+      background: white;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
 
-        .btn-save:hover {
-            background-color: var(--carvajal-dark);
-        }
+    .hallazgo-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-        .btn-save:disabled {
-            background-color: #ADB5BD;
-            cursor: not-allowed;
-        }
+    .grid-img {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
 
-        .records-section {
-            padding: 20px;
-            background-color: #FAFAFA;
-        }
+    .grid-img img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
 
-        .records-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+    .badge-user {
+      font-size: 0.75rem;
+      color: #666;
+      display: block;
+      margin-top: 5px;
+      font-style: italic;
+    }
 
-        .records-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--carvajal-dark);
-        }
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
 
-        .actions-wrapper {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .btn-toggle {
-            background-color: var(--carvajal-dark);
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-sync {
-            background-color: transparent;
-            color: var(--carvajal-blue);
-            border: 1px solid var(--carvajal-blue);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-sync:hover {
-            background-color: var(--carvajal-blue);
-            color: white;
-        }
-
-        .btn-clear {
-            background-color: transparent;
-            color: var(--danger-color);
-            border: 1px solid var(--danger-color);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-clear:hover {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .records-content {
-            display: none;
-            margin-top: 16px;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 12px;
-        }
-
-        .card-code {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--carvajal-blue);
-        }
-
-        .badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            color: white;
-            text-transform: uppercase;
-        }
-
-        .badge-pending { background-color: var(--badge-pending); }
-        .badge-completed { background-color: var(--badge-success); }
-
-        .card-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .card-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .card-photo-box {
-            text-align: center;
-            background: #F8F9FA;
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-
-        .card-photo-box label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .card-photo-box img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-        }
-
-        .obs-text {
-            font-size: 12px;
-            color: var(--text-main);
-            margin-top: 6px;
-            text-align: left;
-            background: #FFF;
-            padding: 6px;
-            border-radius: 4px;
-            border: 1px solid #E9ECEF;
-        }
-
-        .btn-complete-card {
-            width: 100%;
-            background-color: var(--carvajal-orange);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .btn-pdf {
-            width: calc(100% - 40px);
-            margin: 10px 20px 20px 20px;
-            background-color: var(--carvajal-dark);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 450px;
-            width: 100%;
-        }
-
-        .modal-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--carvajal-dark);
-            margin-bottom: 12px;
-        }
-
-        input[type="file"] { display: none; }
-
-        @media print {
-            .header, .form-section, .records-header, .btn-complete-card, .btn-pdf, .modal { display: none !important; }
-            .records-content { display: block !important; }
-            body { background: white; padding: 0; }
-            .app-container { border: none; box-shadow: none; max-width: 100%; }
-            .card { break-inside: avoid; border: 1px solid #CCC; }
-        }
-    </style>
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <div class="header-info">
-            <h1>Carvajal Empaques</h1>
-            <p>Programa 5S - Inspección y Seguimiento</p>
-        </div>
-        <!-- Logo con auto-detección de extensión/mayúsculas -->
-        <div class="logo-container">
-            <img id="imgLogoHeader" src="logo.png" alt="Logo Carvajal Empaques" onerror="intentarSiguienteRuta(this);">
-        </div>
+  <header>
+    <h1>Jornada 5S - Carvajal</h1>
+    <img src="logo.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
+  </header>
+
+  <!-- BARRA DE USUARIO ACTIVO -->
+  <div id="user-bar" class="user-bar" style="display: none;">
+    <span>👤 Usuario: <span id="current-user-display"></span></span>
+    <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+  </div>
+
+  <div class="container">
+
+    <!-- PANTALLA DE INICIO DE SESIÓN -->
+    <div id="login-screen">
+      <h2>Iniciar Sesión</h2>
+      <p style="font-size:0.85rem; color:#666;">Ingresa tus credenciales para registrar hallazgos</p>
+      
+      <div class="form-group">
+        <label for="login-user">Usuario:</label>
+        <input type="text" id="login-user" placeholder="Ej: operario1">
+      </div>
+      
+      <div class="form-group">
+        <label for="login-pass">Contraseña:</label>
+        <input type="password" id="login-pass" placeholder="••••••••">
+      </div>
+
+      <button class="btn" id="btn-login" onclick="validarLogin()">INGRESAR</button>
+      <div id="login-msg" style="margin-top: 10px; font-weight: bold; font-size: 0.85rem;"></div>
     </div>
 
-    <!-- FORMULARIO PRINCIPAL -->
-    <div class="form-section">
+    <!-- CONTENIDO PRINCIPAL DE LA APP -->
+    <div id="app-content" style="display: none;">
+
+      <!-- FORMULARIO DE REGISTRO INICIAL (ANTES) -->
+      <div class="card">
+        <h3 style="margin-top:0; color: var(--primary-color);">Registrar Nuevo Hallazgo</h3>
+
         <div class="form-group">
-            <label for="codigo">Código de máquina o área:</label>
-            <input type="text" id="codigo" placeholder="Ejemplo: MQ35038 o Empacadora 1">
+          <label>Código de Máquina / Área:</label>
+          <input type="text" id="codigo" placeholder="Ej. MQ35038 o Imprenta">
         </div>
 
         <div class="form-group">
-            <label for="etapa5s">Etapa 5S:</label>
-            <select id="etapa5s">
-                <option value="1S - Seiri (Clasificar)">1S - Seiri (Clasificar)</option>
-                <option value="2S - Seiton (Ordenar)">2S - Seiton (Ordenar)</option>
-                <option value="3S - Seiso (Limpiar)">3S - Seiso (Limpiar)</option>
-                <option value="4S - Seiketsu (Estandarizar)">4S - Seiketsu (Estandarizar)</option>
-                <option value="5S - Shitsuke (Disciplina)">5S - Shitsuke (Disciplina)</option>
-            </select>
+          <label>Etapa 5S:</label>
+          <select id="etapa">
+            <option value="1S - Seiri (Clasificar)">1S - Seiri (Clasificar)</option>
+            <option value="2S - Seiton (Ordenar)">2S - Seiton (Ordenar)</option>
+            <option value="3S - Seiso (Limpiar)">3S - Seiso (Limpiar)</option>
+            <option value="4S - Seiketsu (Estandarizar)">4S - Seiketsu (Estandarizar)</option>
+            <option value="5S - Shitsuke (Disciplina)">5S - Shitsuke (Disciplina)</option>
+          </select>
         </div>
 
         <div class="form-group">
-            <label>Fotografía del antes (estado inicial):</label>
-            <div class="photo-uploader-box" onclick="document.getElementById('fotoAntes').click()">
-                <span class="btn-photo">Tomar o cargar fotografía</span>
-                <!-- Inclusión de capture="environment" para Android -->
-                <input type="file" id="fotoAntes" accept="image/*" capture="environment" onchange="previewImage(event, 'imgAntes')">
-                <img id="imgAntes" class="preview-image" alt="Previsualización antes">
-            </div>
+          <label>Foto ANTES:</label>
+          <input type="file" id="fotoAntes" accept="image/*" capture="environment" onchange="previewImagen(this, 'preview-antes')">
+          <img id="preview-antes" class="img-preview">
         </div>
 
         <div class="form-group">
-            <label for="obsAntes">Observaciones o hallazgo inicial:</label>
-            <textarea id="obsAntes" rows="2" placeholder="Describa el hallazgo detectado en el área..."></textarea>
+          <label>Observación / Hallazgo:</label>
+          <textarea id="obsAntes" rows="2" placeholder="Describa el hallazgo..."></textarea>
         </div>
 
-        <button class="btn-save" id="btnGuardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO</button>
+        <button class="btn" id="btn-guardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO</button>
+      </div>
+
+      <!-- ACCIONES DE HISTORIAL Y SINCRONIZACIÓN -->
+      <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <button class="btn btn-secondary" onclick="sincronizarConSheets()" style="font-size: 0.85rem;">🔄 Sincronizar</button>
+        <button class="btn btn-secondary" onclick="limpiarDatosLocales()" style="font-size: 0.85rem;">🗑️ Limpiar Local</button>
+      </div>
+
+      <!-- HISTORIAL DE HALLAZGOS -->
+      <h3 style="color: var(--primary-color);">Historial de Registros</h3>
+      <div id="lista-hallazgos">
+        <p style="text-align: center; color: #777;">Cargando registros...</p>
+      </div>
+
     </div>
 
-    <!-- SECCIÓN HISTORIAL OCULTABLE -->
-    <div class="records-section">
-        <div class="records-header">
-            <span class="records-title">Historial de registros</span>
-            <div class="actions-wrapper">
-                <button class="btn-toggle" id="btnToggleHistorial" onclick="alternarHistorial()">Ver historial</button>
-                <button class="btn-sync" onclick="sincronizarConSheets(true)">Sincronizar</button>
-                <button class="btn-clear" onclick="limpiarMemoriaLocal()">Borrar Memoria</button>
-            </div>
-        </div>
+  </div>
 
-        <div class="records-content" id="contenedorHistorial">
-            <div id="contenedorTarjetas"></div>
-        </div>
-    </div>
-
-    <button class="btn-pdf" onclick="generarReportePDF()">GENERAR REPORTE EN PDF</button>
-</div>
-
-<!-- MODAL PARA COMPLETAR DESPUÉS -->
-<div class="modal" id="modalDespues">
+  <!-- MODAL PARA AGREGAR FOTO DESPUÉS -->
+  <div id="modal-despues" class="modal">
     <div class="modal-content">
-        <div class="modal-title">Completar registro 5S (después)</div>
-        
-        <div class="form-group">
-            <label>Fotografía del después (estado final):</label>
-            <div class="photo-uploader-box" onclick="document.getElementById('fotoDespuesInput').click()">
-                <span class="btn-photo">Tomar fotografía del después</span>
-                <!-- Inclusión de capture="environment" para Android -->
-                <input type="file" id="fotoDespuesInput" accept="image/*" capture="environment" onchange="previewImage(event, 'imgDespuesPreview')">
-                <img id="imgDespuesPreview" class="preview-image" alt="Previsualización después">
-            </div>
-        </div>
+      <h3 style="margin-top:0; color: var(--primary-color);">Completar Registro (DESPUÉS)</h3>
+      <input type="hidden" id="modal-id">
+      
+      <div class="form-group">
+        <label>Foto DESPUÉS:</label>
+        <input type="file" id="fotoDespues" accept="image/*" capture="environment" onchange="previewImagen(this, 'preview-despues')">
+        <img id="preview-despues" class="img-preview">
+      </div>
 
-        <div class="form-group">
-            <label for="obsDespuesInput">Observaciones de la mejora:</label>
-            <textarea id="obsDespuesInput" rows="2" placeholder="Describa la acción correctiva ejecutada..."></textarea>
-        </div>
+      <div class="form-group">
+        <label>Observación / Mejora Realizada:</label>
+        <textarea id="obsDespues" rows="3" placeholder="Describa la solución realizada..."></textarea>
+      </div>
 
-        <button class="btn-save" id="btnGuardarModal" onclick="confirmarCompletado()">GUARDAR</button>
-        <button class="btn-sync" style="width:100%; margin-top:8px;" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn" id="btn-guardar-despues" onclick="guardarDespues()">GUARDAR CAMBIOS</button>
+      <button class="btn btn-secondary" onclick="cerrarModal()" style="margin-top: 5px;">Cancelar</button>
     </div>
-</div>
+  </div>
 
-<script>
-    const SYNC_API_URL = "https://script.google.com/macros/s/AKfycbysWNN1TxlKwyLF5h6m7SbgbElEo38kJgnhMRSFdopsl2oBemqy3NeMb_EV8YcxkxdA6w/exec";
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbysWNN1TxlKwyLF5h6m7SbgbElEo38kJgnhMRSFdopsl2oBemqy3NeMb_EV8YcxkxdA6w/exec";
+    let currentUser = localStorage.getItem("usuario_5s") || "";
 
-    let hallazgos = JSON.parse(localStorage.getItem('hallazgos5S_carvajal')) || [];
-    let idSeleccionadoParaCompletar = null;
-
-    let intentoLogo = 0;
-    const variacionesLogo = ["./logo.png", "Logo.png", "logo.PNG", "LOGO.PNG", "./Logo.png"];
-    function intentarSiguienteRuta(imgElement) {
-        if (intentoLogo < variacionesLogo.length) {
-            imgElement.src = variacionesLogo[intentoLogo];
-            intentoLogo++;
-        } else {
-            imgElement.style.display = 'none';
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        renderizarTarjetas();
-        sincronizarConSheets(false);
+    // INICIALIZACIÓN
+    document.addEventListener("DOMContentLoaded", function() {
+      if (currentUser) {
+        mostrarApp();
+      } else {
+        mostrarLogin();
+      }
     });
 
-    function alternarHistorial() {
-        const contenedor = document.getElementById('contenedorHistorial');
-        const boton = document.getElementById('btnToggleHistorial');
-        
-        if (contenedor.style.display === 'block') {
-            contenedor.style.display = 'none';
-            boton.innerText = 'Ver historial';
-        } else {
-            contenedor.style.display = 'block';
-            boton.innerText = 'Ocultar historial';
-        }
+    function mostrarLogin() {
+      document.getElementById("login-screen").style.display = "block";
+      document.getElementById("app-content").style.display = "none";
+      document.getElementById("user-bar").style.display = "none";
     }
 
-    function redimensionarImagen(file, callback) {
+    function mostrarApp() {
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("app-content").style.display = "block";
+      document.getElementById("user-bar").style.display = "flex";
+      document.getElementById("current-user-display").innerText = currentUser;
+      cargarRegistrosLocales();
+      sincronizarConSheets();
+    }
+
+    // VALIDACIÓN DE LOGIN
+    async function validarLogin() {
+      const u = document.getElementById("login-user").value.trim();
+      const p = document.getElementById("login-pass").value.trim();
+      const msg = document.getElementById("login-msg");
+      const btn = document.getElementById("btn-login");
+
+      if (!u || !p) {
+        msg.style.color = "red";
+        msg.innerText = "Por favor ingrese usuario y contraseña.";
+        return;
+      }
+
+      btn.disabled = true;
+      msg.style.color = "#005696";
+      msg.innerText = "Validando credenciales...";
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "login", usuario: u, password: p })
+        });
+        const res = await response.json();
+
+        if (res.result === "success") {
+          currentUser = u;
+          localStorage.setItem("usuario_5s", u);
+          msg.innerText = "";
+          mostrarApp();
+        } else {
+          msg.style.color = "red";
+          msg.innerText = res.message || "Credenciales incorrectas.";
+        }
+      } catch (err) {
+        msg.style.color = "red";
+        msg.innerText = "Error de conexión. Intente nuevamente.";
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem("usuario_5s");
+      currentUser = "";
+      document.getElementById("login-user").value = "";
+      document.getElementById("login-pass").value = "";
+      mostrarLogin();
+    }
+
+    // MANEJO DE IMÁGENES Y COMPRESIÓN
+    function previewImagen(input, previewId) {
+      const img = document.getElementById(previewId);
+      if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                let width = img.width;
-                let height = img.height;
-                const maxDim = 600;
+          img.src = e.target.result;
+          img.style.display = "block";
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
 
-                if (width > height) {
-                    if (width > maxDim) {
-                        height *= maxDim / width;
-                        width = maxDim;
-                    }
-                } else {
-                    if (height > maxDim) {
-                        width *= maxDim / height;
-                        height = maxDim;
-                    }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0, width, height);
-                callback(canvas.toDataURL("image/jpeg", 0.6));
-            };
-            img.src = e.target.result;
-        };
+    function comprimirImagen(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
         reader.readAsDataURL(file);
-    }
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const MAX_WIDTH = 800;
+            const scaleSize = MAX_WIDTH / img.width;
+            canvas.width = (img.width > MAX_WIDTH) ? MAX_WIDTH : img.width;
+            canvas.height = (img.width > MAX_WIDTH) ? (img.height * scaleSize) : img.height;
 
-    function previewImage(event, imgId) {
-        const file = event.target.files[0];
-        if (file) {
-            redimensionarImagen(file, function(base64Data) {
-                const img = document.getElementById(imgId);
-                img.src = base64Data;
-                img.style.display = 'block';
-            });
-        }
-    }
-
-    function renderizarTarjetas() {
-        const contenedor = document.getElementById('contenedorTarjetas');
-        contenedor.innerHTML = '';
-
-        if (hallazgos.length === 0) {
-            contenedor.innerHTML = '<p style="text-align:center; color:#888; padding:20px; font-size:13px;">No hay hallazgos registrados aún.</p>';
-            return;
-        }
-
-        hallazgos.forEach((item) => {
-            const esCompletado = (item.fotoDespues && item.fotoDespues !== "") ? true : false;
-            
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="card-top">
-                    <span class="card-code">${item.codigo}</span>
-                    <span class="badge ${esCompletado ? 'badge-completed' : 'badge-pending'}">
-                        ${esCompletado ? 'Completado' : 'Pendiente'}
-                    </span>
-                </div>
-                <div class="card-meta">
-                    <b>Etapa:</b> ${item.etapa} | <b>Fecha:</b> ${item.fechaAntes}
-                </div>
-                <div class="card-grid">
-                    <div class="card-photo-box">
-                        <label>Antes</label>
-                        <img src="${item.fotoAntes}">
-                        <div class="obs-text">${item.obsAntes}</div>
-                    </div>
-                    <div class="card-photo-box">
-                        <label>Después</label>
-                        ${esCompletado ? 
-                            `<img src="${item.fotoDespues}">
-                             <div class="obs-text">${item.obsDespues || ''}</div>` : 
-                            `<div style="height:120px; display:flex; align-items:center; justify-content:center; color:#AAA; font-style:italic; font-size:12px;">Pendiente por cargar fotografía</div>`
-                        }
-                    </div>
-                </div>
-                ${!esCompletado ? `<button class="btn-complete-card" onclick="abrirModalDespues('${item.id}')">AGREGAR FOTOGRAFÍA DEL DESPUÉS</button>` : ''}
-            `;
-            contenedor.appendChild(card);
-        });
-    }
-
-    function guardarNuevoHallazgo() {
-        const codigo = document.getElementById('codigo').value.trim();
-        const etapa = document.getElementById('etapa5s').value;
-        const imgAntesEl = document.getElementById('imgAntes');
-        const obsAntes = document.getElementById('obsAntes').value.trim();
-
-        if (!codigo) {
-            alert('Ingrese el código de máquina o área.');
-            return;
-        }
-
-        if (imgAntesEl.style.display === 'none' || !imgAntesEl.src) {
-            alert('Por favor tome o cargue la fotografía del antes.');
-            return;
-        }
-
-        const btnGuardar = document.getElementById('btnGuardar');
-        btnGuardar.disabled = true;
-        btnGuardar.innerText = "GUARDANDO...";
-
-        const nuevoHallazgo = {
-            id: String(Date.now()),
-            codigo: codigo,
-            etapa: etapa,
-            fotoAntes: imgAntesEl.src,
-            obsAntes: obsAntes || 'Sin observaciones.',
-            fechaAntes: new Date().toLocaleDateString(),
-            fotoDespues: "",
-            obsDespues: "",
-            fechaDespues: ""
+            const ctx = canvas.getContext("canvas");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", 0.7)); // Compresión al 70%
+          };
         };
-
-        enviarAGoogleSheets(nuevoHallazgo, function(exito) {
-            btnGuardar.disabled = false;
-            btnGuardar.innerText = "GUARDAR HALLAZGO";
-
-            if (exito) {
-                hallazgos.unshift(nuevoHallazgo);
-                localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
-                renderizarTarjetas();
-
-                document.getElementById('codigo').value = '';
-                document.getElementById('obsAntes').value = '';
-                imgAntesEl.style.display = 'none';
-                imgAntesEl.src = '';
-                document.getElementById('fotoAntes').value = '';
-
-                alert('El hallazgo se ha guardado correctamente.');
-                sincronizarConSheets(false);
-            } else {
-                alert('No se pudo guardar la información. Verifique la conexión a internet.');
-            }
-        });
+      });
     }
 
+    // GUARDAR NUEVO HALLAZGO
+    async function guardarNuevoHallazgo() {
+      const codigo = document.getElementById("codigo").value.trim();
+      const etapa = document.getElementById("etapa").value;
+      const obsAntes = document.getElementById("obsAntes").value.trim();
+      const fotoInput = document.getElementById("fotoAntes");
+      const btn = document.getElementById("btn-guardar");
+
+      if (!codigo || !obsAntes || fotoInput.files.length === 0) {
+        alert("Por favor complete el código, la observación y tome la foto del ANTES.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = "⏳ Guardando...";
+
+      let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
+      const nuevoRegistro = {
+        id: "ID_" + Date.now(),
+        codigo: codigo,
+        etapa: etapa,
+        fotoAntes: fotoBase64,
+        obsAntes: obsAntes,
+        fechaAntes: new Date().toLocaleString(),
+        fotoDespues: "",
+        obsDespues: "",
+        fechaDespues: "",
+        usuarioRegistra: currentUser
+      };
+
+      // Guardado local
+      let registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
+      registros.unshift(nuevoRegistro);
+      localStorage.setItem("hallazgos_5s", JSON.stringify(registros));
+      cargarRegistrosLocales();
+
+      // Enviar a Google Sheets
+      try {
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify(nuevoRegistro)
+        });
+        alert("✅ Hallazgo guardado exitosamente.");
+        // Limpiar formulario
+        document.getElementById("codigo").value = "";
+        document.getElementById("obsAntes").value = "";
+        fotoInput.value = "";
+        document.getElementById("preview-antes").style.display = "none";
+      } catch (e) {
+        alert("⚠️ Se guardó localmente. Se sincronizará al refrescar con conexión.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "GUARDAR HALLAZGO";
+      }
+    }
+
+    // MANEJO DE HISTORIAL
+    function cargarRegistrosLocales() {
+      const lista = document.getElementById("lista-hallazgos");
+      const registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
+
+      if (registros.length === 0) {
+        lista.innerHTML = "<p style='text-align:center; color:#777;'>No hay hallazgos registrados.</p>";
+        return;
+      }
+
+      lista.innerHTML = registros.map(item => `
+        <div class="hallazgo-card">
+          <div class="hallazgo-header">
+            <span>📍 ${item.codigo}</span>
+            <small style="color:var(--primary-color);">${item.etapa}</small>
+          </div>
+          <span class="badge-user">Registrado por: ${item.usuarioRegistra || "N/A"}</span>
+          
+          <div class="grid-img">
+            <div>
+              <strong style="font-size:0.8rem;">ANTES (${item.fechaAntes})</strong>
+              <img src="${item.fotoAntes}">
+              <p style="font-size:0.85rem; margin:3px 0;">${item.obsAntes}</p>
+            </div>
+            <div>
+              <strong style="font-size:0.8rem;">DESPUÉS</strong>
+              ${item.fotoDespues ? `
+                <img src="${item.fotoDespues}">
+                <p style="font-size:0.85rem; margin:3px 0;">${item.obsDespues}</p>
+              ` : `
+                <button class="btn btn-secondary" style="font-size:0.75rem; padding:8px; margin-top:15px;" onclick="abrirModalDespues('${item.id}')">+ Agregar Después</button>
+              `}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // MODAL Y AGREGAR FOTO DESPUÉS
     function abrirModalDespues(id) {
-        idSeleccionadoParaCompletar = id;
-        document.getElementById('modalDespues').style.display = 'flex';
+      document.getElementById("modal-id").value = id;
+      document.getElementById("modal-despues").style.display = "flex";
     }
 
     function cerrarModal() {
-        document.getElementById('modalDespues').style.display = 'none';
-        idSeleccionadoParaCompletar = null;
+      document.getElementById("modal-despues").style.display = "none";
+      document.getElementById("fotoDespues").value = "";
+      document.getElementById("obsDespues").value = "";
+      document.getElementById("preview-despues").style.display = "none";
     }
 
-    function confirmarCompletado() {
-        const imgDespuesEl = document.getElementById('imgDespuesPreview');
-        const obsDespuesText = document.getElementById('obsDespuesInput').value.trim();
+    async function guardarDespues() {
+      const id = document.getElementById("modal-id").value;
+      const obsDespues = document.getElementById("obsDespues").value.trim();
+      const fotoInput = document.getElementById("fotoDespues");
+      const btn = document.getElementById("btn-guardar-despues");
 
-        if (imgDespuesEl.style.display === 'none' || !imgDespuesEl.src) {
-            alert('Por favor tome la fotografía del después.');
-            return;
-        }
+      if (!obsDespues || fotoInput.files.length === 0) {
+        alert("Por favor complete la observación y tome la foto del DESPUÉS.");
+        return;
+      }
 
-        const btnModal = document.getElementById('btnGuardarModal');
-        btnModal.disabled = true;
-        btnModal.innerText = "ACTUALIZANDO...";
+      btn.disabled = true;
+      btn.innerText = "⏳ Guardando...";
 
-        const index = hallazgos.findIndex(h => h.id == idSeleccionadoParaCompletar);
-        if (index !== -1) {
-            const copiaActualizada = Object.assign({}, hallazgos[index], {
-                fotoDespues: imgDespuesEl.src,
-                obsDespues: obsDespuesText || 'Mejora implementada.',
-                fechaDespues: new Date().toLocaleDateString()
-            });
+      let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
+      const fechaDespues = new Date().toLocaleString();
 
-            enviarAGoogleSheets(copiaActualizada, function(exito) {
-                btnModal.disabled = false;
-                btnModal.innerText = "GUARDAR";
+      // Actualizar Local
+      let registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
+      let item = registros.find(r => r.id === id);
 
-                if (exito) {
-                    hallazgos[index] = copiaActualizada;
-                    localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
-                    renderizarTarjetas();
+      if (item) {
+        item.fotoDespues = fotoBase64;
+        item.obsDespues = obsDespues;
+        item.fechaDespues = fechaDespues;
+        localStorage.setItem("hallazgos_5s", JSON.stringify(registros));
+        cargarRegistrosLocales();
+      }
 
-                    document.getElementById('obsDespuesInput').value = '';
-                    imgDespuesEl.style.display = 'none';
-                    imgDespuesEl.src = '';
-                    document.getElementById('fotoDespuesInput').value = '';
-                    cerrarModal();
-
-                    alert('La mejora se ha guardado correctamente.');
-                    sincronizarConSheets(false);
-                } else {
-                    alert('Error al actualizar en la base de datos. Intente nuevamente.');
-                }
-            });
-        }
-    }
-
-    function enviarAGoogleSheets(datos, callback) {
-        fetch(SYNC_API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
-            body: JSON.stringify(datos)
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data && data.result === "success") {
-                callback(true);
-            } else {
-                callback(false);
-            }
-        })
-        .catch(err => {
-            console.error("Error al enviar datos:", err);
-            callback(false);
+      // Actualizar Google Sheets
+      try {
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            id: id,
+            fotoDespues: fotoBase64,
+            obsDespues: obsDespues,
+            fechaDespues: fechaDespues
+          })
         });
+        alert("✅ Registro actualizado con éxito.");
+        cerrarModal();
+      } catch (e) {
+        alert("⚠️ Cambio guardado localmente.");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "GUARDAR CAMBIOS";
+      }
     }
 
-    function sincronizarConSheets(mostrarAlerta = false) {
-        fetch(SYNC_API_URL)
-            .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data)) {
-                    const mapaDatos = new Map();
-                    data.reverse().forEach(item => mapaDatos.set(item.id, item));
-                    
-                    hallazgos = Array.from(mapaDatos.values());
-                    localStorage.setItem('hallazgos5S_carvajal', JSON.stringify(hallazgos));
-                    renderizarTarjetas();
-
-                    if (mostrarAlerta) alert("Sincronización completada con la base de datos.");
-                } else {
-                    if (mostrarAlerta) alert("No hay nuevos registros en la base de datos.");
-                }
-            })
-            .catch(err => {
-                console.log("Modo sin conexión o error al consultar la base de datos:", err);
-                if (mostrarAlerta) alert("Error de conexión al sincronizar.");
-            });
-    }
-
-    function limpiarMemoriaLocal() {
-        if (confirm("¿Deseas limpiar el historial almacenado en este teléfono? (Esto no afecta la base de datos si ya sincronizaste)")) {
-            localStorage.removeItem('hallazgos5S_carvajal');
-            hallazgos = [];
-            renderizarTarjetas();
-            alert("Memoria local vaciada correctamente.");
+    // SINCRONIZACIÓN Y LIMPIEZA
+    async function sincronizarConSheets() {
+      try {
+        const response = await fetch(WEB_APP_URL);
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+          localStorage.setItem("hallazgos_5s", JSON.stringify(data.reverse()));
+          cargarRegistrosLocales();
         }
+      } catch (err) {
+        console.log("Error al sincronizar con Sheets:", err);
+      }
     }
 
-    function generarReportePDF() {
-        sincronizarConSheets(false);
-        const contenedor = document.getElementById('contenedorHistorial');
-        contenedor.style.display = 'block';
-        window.print();
+    function limpiarDatosLocales() {
+      if (confirm("¿Desea limpiar la caché local de este celular? (No borrará los datos ya guardados en Google Sheets).")) {
+        localStorage.removeItem("hallazgos_5s");
+        cargarRegistrosLocales();
+      }
     }
-</script>
-
+  </script>
 </body>
 </html>
