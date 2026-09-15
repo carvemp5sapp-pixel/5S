@@ -11,6 +11,8 @@
       --accent-color: #003B66;
       --text-color: #333;
       --border-color: #e0e0e0;
+      --pending-color: #e65100;
+      --success-color: #2e7d32;
     }
 
     body {
@@ -163,17 +165,28 @@
       border: 1px solid #ddd;
     }
 
-    /* TARJETAS DEL HISTORIAL DE REGISTROS (CORREGIDAS) */
+    /* TARJETAS DEL HISTORIAL (PENDIENTE Y COMPLETADO) */
     .hallazgo-card {
       background: white;
       padding: 16px;
       margin-bottom: 20px;
       border-radius: 8px;
-      border-left: 5px solid var(--primary-color);
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       border-top: 1px solid var(--border-color);
       border-right: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
+    }
+
+    /* ESTADO PENDIENTE (NARANJA) */
+    .hallazgo-card.estado-pendiente {
+      border-left: 6px solid var(--pending-color);
+      background-color: #fffbf7;
+    }
+
+    /* ESTADO COMPLETADO (VERDE) */
+    .hallazgo-card.estado-completado {
+      border-left: 6px solid var(--success-color);
+      background-color: #ffffff;
     }
 
     .hallazgo-header {
@@ -200,14 +213,35 @@
       font-weight: 600;
     }
 
+    /* INSIGNIAS DE ESTADO */
+    .badge-status {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .badge-status.status-pendiente {
+      background-color: #ffe0b2;
+      color: #e65100;
+    }
+
+    .badge-status.status-completado {
+      background-color: #c8e6c9;
+      color: #2e7d32;
+    }
+
     .badge-user {
       font-size: 0.75rem;
       color: #666;
       display: block;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    /* CONTENEDOR DE FOTOS DEL HISTORIAL */
+    /* CONTENEDOR DE FOTOS */
     .grid-img {
       display: flex;
       flex-direction: column;
@@ -250,6 +284,19 @@
       margin: 8px 0 0 0;
       color: #333;
       word-break: break-word;
+    }
+
+    .btn-add-despues {
+      background-color: var(--pending-color);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
     }
 
     /* MODAL */
@@ -482,7 +529,6 @@
       mostrarLogin();
     }
 
-    // MOSTRAR / OCULTAR HISTORIAL
     function toggleHistorial() {
       historialVisible = !historialVisible;
       const contenedor = document.getElementById("contenedor-historial");
@@ -509,7 +555,6 @@
       }
     }
 
-    // COMPRESIÓN DE IMAGEN A 800PX Y 60% CALIDAD (CORRIGE EL ENVÍO A EXCEL)
     function comprimirImagen(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
@@ -539,7 +584,7 @@
       });
     }
 
-    // GUARDAR NUEVO HALLAZGO
+    // GUARDAR NUEVO HALLAZGO (ANTES)
     async function guardarNuevoHallazgo() {
       const codigo = document.getElementById("codigo").value.trim();
       const etapa = document.getElementById("etapa").value;
@@ -570,7 +615,6 @@
           usuarioRegistra: currentUser
         };
 
-        // Enviar directamente a Google Sheets
         const response = await fetch(WEB_APP_URL, {
           method: "POST",
           body: JSON.stringify(nuevoRegistro)
@@ -584,9 +628,9 @@
           document.getElementById("obsAntes").value = "";
           fotoInput.value = "";
           document.getElementById("preview-antes").style.display = "none";
-          sincronizarConSheets(); // Refresca desde el servidor
+          sincronizarConSheets();
         } else {
-          alert("Ocurrió un error al guardar en Excel: " + res.error);
+          alert("Error al guardar en Excel: " + res.error);
         }
       } catch (e) {
         alert("Error de conexión al intentar enviar a Excel.");
@@ -596,7 +640,7 @@
       }
     }
 
-    // CARGAR Y RENDERIZAR HISTORIAL DE REGISTROS (DISEÑO MEJORADO)
+    // CARGAR REGISTROS EN HISTORIAL CON COLORES PENDIENTE Y COMPLETADO
     function cargarRegistrosLocales() {
       const lista = document.getElementById("lista-hallazgos");
       const registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
@@ -606,37 +650,47 @@
         return;
       }
 
-      lista.innerHTML = registros.map(item => `
-        <div class="hallazgo-card">
-          <div class="hallazgo-header">
-            <span class="ubicacion">📍 ${item.codigo}</span>
-            <span class="etapa">${item.etapa}</span>
-          </div>
-          <span class="badge-user">Registrado por: ${item.usuarioRegistra || "N/A"}</span>
-          
-          <div class="grid-img">
-            <div class="bloque-foto">
-              <strong>ANTES (${item.fechaAntes})</strong>
-              <img src="${item.fotoAntes}">
-              <p>${item.obsAntes}</p>
+      lista.innerHTML = registros.map(item => {
+        const esPendiente = !item.fotoDespues || item.fotoDespues.trim() === "";
+        const claseEstado = esPendiente ? "estado-pendiente" : "estado-completado";
+        const badgeEstado = esPendiente 
+          ? `<span class="badge-status status-pendiente">Pendiente - Falta Después</span>`
+          : `<span class="badge-status status-completado">Completado</span>`;
+
+        return `
+          <div class="hallazgo-card ${claseEstado}">
+            <div class="hallazgo-header">
+              <span class="ubicacion">📍 ${item.codigo}</span>
+              <span class="etapa">${item.etapa}</span>
             </div>
-            <div class="bloque-foto">
-              <strong>DESPUÉS</strong>
-              ${item.fotoDespues ? `
-                <img src="${item.fotoDespues}">
-                <p>${item.obsDespues}</p>
-              ` : `
-                <div style="text-align:center; padding: 20px 0;">
-                  <button class="btn btn-secondary" style="font-size:0.75rem; padding:10px;" onclick="abrirModalDespues('${item.id}')">Agregar foto del después</button>
-                </div>
-              `}
+            
+            ${badgeEstado}
+            <span class="badge-user">Registrado por: ${item.usuarioRegistra || "N/A"}</span>
+            
+            <div class="grid-img">
+              <div class="bloque-foto">
+                <strong>ANTES (${item.fechaAntes})</strong>
+                <img src="${item.fotoAntes}">
+                <p>${item.obsAntes}</p>
+              </div>
+              <div class="bloque-foto">
+                <strong>DESPUÉS ${item.fechaDespues ? `(${item.fechaDespues})` : ''}</strong>
+                ${!esPendiente ? `
+                  <img src="${item.fotoDespues}">
+                  <p>${item.obsDespues}</p>
+                ` : `
+                  <div style="text-align:center; padding: 15px 0;">
+                    <button class="btn-add-despues" onclick="abrirModalDespues('${item.id}')">+ Agregar foto del después</button>
+                  </div>
+                `}
+              </div>
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
-    // MODAL Y AGREGAR FOTO DESPUÉS
+    // MODAL Y AGREGAR FOTO DESPUÉS (CORREGIDO ENVÍO A EXCEL)
     function abrirModalDespues(id) {
       document.getElementById("modal-id").value = id;
       document.getElementById("modal-despues").style.display = "flex";
@@ -680,28 +734,27 @@
         const res = await response.json();
 
         if (res.result === "success") {
-          alert("Registro actualizado con éxito en Excel.");
+          alert("Foto del DESPUÉS guardada exitosamente en Excel.");
           cerrarModal();
-          sincronizarConSheets(); // Refresca los datos reales del Excel
+          sincronizarConSheets(); // Descarga los datos reales del Excel
         } else {
           alert("Error al actualizar en Excel: " + res.error);
         }
       } catch (e) {
-        alert("Error de conexión al enviar cambios.");
+        alert("Error de conexión al enviar la foto del después.");
       } finally {
         btn.disabled = false;
         btn.innerText = "GUARDAR CAMBIOS";
       }
     }
 
-    // SINCRONIZACIÓN STRICTA (REEMPLAZA LA MEMORIA LOCAL CON LO QUE HAYA EN EXCEL)
+    // SINCRONIZACIÓN EXACTA DESDE EXCEL
     async function sincronizarConSheets() {
       try {
         const response = await fetch(WEB_APP_URL);
         const data = await response.json();
         
         if (Array.isArray(data)) {
-          // Reemplaza 100% el historial local con la lista del Excel
           localStorage.setItem("hallazgos_5s", JSON.stringify(data.reverse()));
           cargarRegistrosLocales();
         }
