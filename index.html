@@ -12,7 +12,9 @@
       --text-color: #333;
       --border-color: #e0e0e0;
       --pending-color: #e65100;
+      --pending-bg: #fff3e0;
       --success-color: #2e7d32;
+      --success-bg: #e8f5e9;
     }
 
     body {
@@ -43,8 +45,6 @@
     .header-logo {
       height: 40px;
       width: auto;
-      background: transparent;
-      border: none;
       object-fit: contain;
     }
 
@@ -54,7 +54,6 @@
       padding: 15px;
     }
 
-    /* PANTALLA DE INICIO DE SESIÓN */
     #login-screen {
       background: white;
       padding: 25px;
@@ -67,7 +66,6 @@
     .login-logo {
       max-height: 60px;
       margin-bottom: 15px;
-      background: transparent;
       object-fit: contain;
     }
 
@@ -77,7 +75,6 @@
       font-size: 1.2rem;
     }
 
-    /* FORMULARIOS Y TARJETAS */
     .card {
       background: white;
       border-radius: 8px;
@@ -165,27 +162,26 @@
       border: 1px solid #ddd;
     }
 
-    /* TARJETAS DEL HISTORIAL (PENDIENTE Y COMPLETADO) */
+    /* ESTILOS DE TARJETAS DE HISTORIAL CON IDENTIFICACIÓN POR COLOR */
     .hallazgo-card {
       background: white;
       padding: 16px;
       margin-bottom: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-      border-top: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
+      border: 1px solid var(--border-color);
+      transition: all 0.3s ease;
     }
 
-    /* ESTADO PENDIENTE (NARANJA) */
+    /* ESTADO PENDIENTE - COLOR NARANJA DESTACADO */
     .hallazgo-card.estado-pendiente {
-      border-left: 6px solid var(--pending-color);
+      border-left: 8px solid var(--pending-color);
       background-color: #fffbf7;
     }
 
-    /* ESTADO COMPLETADO (VERDE) */
+    /* ESTADO COMPLETADO - COLOR VERDE */
     .hallazgo-card.estado-completado {
-      border-left: 6px solid var(--success-color);
+      border-left: 8px solid var(--success-color);
       background-color: #ffffff;
     }
 
@@ -213,25 +209,26 @@
       font-weight: 600;
     }
 
-    /* INSIGNIAS DE ESTADO */
     .badge-status {
       display: inline-block;
       font-size: 0.75rem;
       font-weight: bold;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 4px;
       text-transform: uppercase;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .badge-status.status-pendiente {
-      background-color: #ffe0b2;
-      color: #e65100;
+      background-color: var(--pending-bg);
+      color: var(--pending-color);
+      border: 1px solid #ffcc80;
     }
 
     .badge-status.status-completado {
-      background-color: #c8e6c9;
-      color: #2e7d32;
+      background-color: var(--success-bg);
+      color: var(--success-color);
+      border: 1px solid #a5d6a7;
     }
 
     .badge-user {
@@ -241,11 +238,10 @@
       margin-bottom: 10px;
     }
 
-    /* CONTENEDOR DE FOTOS */
     .grid-img {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
     }
 
     @media (min-width: 480px) {
@@ -297,9 +293,13 @@
       font-weight: bold;
       cursor: pointer;
       text-transform: uppercase;
+      margin-top: 10px;
     }
 
-    /* MODAL */
+    .btn-add-despues:hover {
+      background-color: #bf360c;
+    }
+
     .modal {
       display: none;
       position: fixed;
@@ -320,7 +320,6 @@
       overflow-y: auto;
     }
 
-    /* ESTILOS DE IMPRESIÓN / PDF */
     @media print {
       header, .user-bar, .card, .btn, .btn-secondary, #login-screen, #toggle-historial-btn, .action-buttons {
         display: none !important;
@@ -343,7 +342,6 @@
     <img src="logo.png" alt="Logo" class="header-logo" onerror="this.src='Logo.png'; this.onerror=null;">
   </header>
 
-  <!-- BARRA DE USUARIO ACTIVO -->
   <div id="user-bar" class="user-bar" style="display: none;">
     <span>Usuario: <span id="current-user-display"></span></span>
     <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
@@ -351,7 +349,6 @@
 
   <div class="container">
 
-    <!-- PANTALLA DE INICIO DE SESIÓN -->
     <div id="login-screen">
       <img src="logo.png" alt="Logo Carvajal" class="login-logo" onerror="this.src='Logo.png'; this.onerror=null;">
       <h2>Iniciar sesión</h2>
@@ -371,10 +368,8 @@
       <div id="login-msg" style="margin-top: 10px; font-weight: bold; font-size: 0.85rem;"></div>
     </div>
 
-    <!-- CONTENIDO PRINCIPAL DE LA APP -->
     <div id="app-content" style="display: none;">
 
-      <!-- FORMULARIO DE REGISTRO INICIAL (ANTES) -->
       <div class="card">
         <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Registrar nuevo hallazgo</h3>
 
@@ -408,7 +403,6 @@
         <button class="btn" id="btn-guardar" onclick="guardarNuevoHallazgo()">GUARDAR HALLAZGO</button>
       </div>
 
-      <!-- ACCIONES DE SINCRONIZACIÓN Y NAVEGACIÓN -->
       <div class="action-buttons" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
         <div style="display: flex; gap: 10px;">
           <button class="btn btn-secondary" onclick="sincronizarConSheets()" style="font-size: 0.8rem;">Sincronizar datos</button>
@@ -417,7 +411,6 @@
         <button class="btn btn-secondary" id="toggle-historial-btn" onclick="toggleHistorial()" style="font-size: 0.8rem; background-color: #495057;">MOSTRAR HISTORIAL DE REGISTROS</button>
       </div>
 
-      <!-- SECCIÓN DEL HISTORIAL (OCULTA POR DEFECTO) -->
       <div id="contenedor-historial" style="display: none;">
         <h3 style="color: var(--primary-color); font-size: 1.1rem;">Historial de registros</h3>
         <div id="lista-hallazgos">
@@ -429,7 +422,7 @@
 
   </div>
 
-  <!-- MODAL PARA AGREGAR FOTO DESPUÉS -->
+  <!-- MODAL DE DESPUÉS -->
   <div id="modal-despues" class="modal">
     <div class="modal-content">
       <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Completar registro (DESPUÉS)</h3>
@@ -456,7 +449,6 @@
     let currentUser = localStorage.getItem("usuario_5s") || "";
     let historialVisible = false;
 
-    // INICIALIZACIÓN
     document.addEventListener("DOMContentLoaded", function() {
       if (currentUser) {
         mostrarApp();
@@ -480,7 +472,6 @@
       sincronizarConSheets();
     }
 
-    // VALIDACIÓN DE LOGIN
     async function validarLogin() {
       const u = document.getElementById("login-user").value.trim();
       const p = document.getElementById("login-pass").value.trim();
@@ -584,7 +575,6 @@
       });
     }
 
-    // GUARDAR NUEVO HALLAZGO (ANTES)
     async function guardarNuevoHallazgo() {
       const codigo = document.getElementById("codigo").value.trim();
       const etapa = document.getElementById("etapa").value;
@@ -623,24 +613,23 @@
         const res = await response.json();
 
         if (res.result === "success") {
-          alert("Hallazgo guardado exitosamente en Excel.");
+          alert("Hallazgo guardado exitosamente.");
           document.getElementById("codigo").value = "";
           document.getElementById("obsAntes").value = "";
           fotoInput.value = "";
           document.getElementById("preview-antes").style.display = "none";
           sincronizarConSheets();
         } else {
-          alert("Error al guardar en Excel: " + res.error);
+          alert("Error al guardar: " + res.error);
         }
       } catch (e) {
-        alert("Error de conexión al intentar enviar a Excel.");
+        alert("Error de conexión al guardar el registro.");
       } finally {
         btn.disabled = false;
         btn.innerText = "GUARDAR HALLAZGO";
       }
     }
 
-    // CARGAR REGISTROS EN HISTORIAL CON COLORES PENDIENTE Y COMPLETADO
     function cargarRegistrosLocales() {
       const lista = document.getElementById("lista-hallazgos");
       const registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
@@ -651,11 +640,11 @@
       }
 
       lista.innerHTML = registros.map(item => {
-        const esPendiente = !item.fotoDespues || item.fotoDespues.trim() === "";
+        const esPendiente = !item.fotoDespues || String(item.fotoDespues).trim() === "";
         const claseEstado = esPendiente ? "estado-pendiente" : "estado-completado";
         const badgeEstado = esPendiente 
-          ? `<span class="badge-status status-pendiente">Pendiente - Falta Después</span>`
-          : `<span class="badge-status status-completado">Completado</span>`;
+          ? `<span class="badge-status status-pendiente">⚠️ PENDIENTE - FALTA DESPUÉS</span>`
+          : `<span class="badge-status status-completado">✅ COMPLETADO</span>`;
 
         return `
           <div class="hallazgo-card ${claseEstado}">
@@ -680,6 +669,7 @@
                   <p>${item.obsDespues}</p>
                 ` : `
                   <div style="text-align:center; padding: 15px 0;">
+                    <p style="font-size:0.8rem; color:#d32f2f; font-weight:bold; margin-bottom: 5px;">Falta completar mejora</p>
                     <button class="btn-add-despues" onclick="abrirModalDespues('${item.id}')">+ Agregar foto del después</button>
                   </div>
                 `}
@@ -690,7 +680,6 @@
       }).join('');
     }
 
-    // MODAL Y AGREGAR FOTO DESPUÉS (CORREGIDO ENVÍO A EXCEL)
     function abrirModalDespues(id) {
       document.getElementById("modal-id").value = id;
       document.getElementById("modal-despues").style.display = "flex";
@@ -703,6 +692,7 @@
       document.getElementById("preview-despues").style.display = "none";
     }
 
+    // CORRECCIÓN EXACTA PARA ACTUALIZACIÓN DEL DESPUÉS EN GOOGLE SHEETS
     async function guardarDespues() {
       const id = document.getElementById("modal-id").value;
       const obsDespues = document.getElementById("obsDespues").value.trim();
@@ -721,34 +711,35 @@
         let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
         const fechaDespues = new Date().toLocaleString();
 
+        const payload = {
+          id: id,
+          fotoDespues: fotoBase64,
+          obsDespues: obsDespues,
+          fechaDespues: fechaDespues
+        };
+
         const response = await fetch(WEB_APP_URL, {
           method: "POST",
-          body: JSON.stringify({
-            id: id,
-            fotoDespues: fotoBase64,
-            obsDespues: obsDespues,
-            fechaDespues: fechaDespues
-          })
+          body: JSON.stringify(payload)
         });
 
         const res = await response.json();
 
         if (res.result === "success") {
-          alert("Foto del DESPUÉS guardada exitosamente en Excel.");
+          alert("Foto del DESPUÉS guardada exitosamente.");
           cerrarModal();
-          sincronizarConSheets(); // Descarga los datos reales del Excel
+          await sincronizarConSheets(); // Refresca los registros directamente desde Google Sheets
         } else {
-          alert("Error al actualizar en Excel: " + res.error);
+          alert("Error al actualizar: " + res.error);
         }
       } catch (e) {
-        alert("Error de conexión al enviar la foto del después.");
+        alert("Error de conexión al guardar la foto del después.");
       } finally {
         btn.disabled = false;
         btn.innerText = "GUARDAR CAMBIOS";
       }
     }
 
-    // SINCRONIZACIÓN EXACTA DESDE EXCEL
     async function sincronizarConSheets() {
       try {
         const response = await fetch(WEB_APP_URL);
@@ -759,11 +750,10 @@
           cargarRegistrosLocales();
         }
       } catch (err) {
-        console.log("Error al sincronizar con Sheets:", err);
+        console.log("Error al sincronizar datos:", err);
       }
     }
 
-    // EXPORTAR A PDF
     function exportarPDF() {
       const contenedor = document.getElementById("contenedor-historial");
       const estadoPrevio = contenedor.style.display;
