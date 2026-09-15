@@ -480,10 +480,11 @@
       msg.innerText = "Validando credenciales...";
 
       try {
-        const bodyData = new URLSearchParams({ action: "login", usuario: u, password: p });
+        const payload = { action: "login", usuario: u, password: p };
         const response = await fetch(WEB_APP_URL, {
           method: "POST",
-          body: bodyData
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
         });
         const res = await response.json();
 
@@ -587,7 +588,7 @@
         const newId = "ID_" + Date.now();
         const fechaActual = new Date().toLocaleString();
 
-        const bodyData = new URLSearchParams({
+        const payload = {
           id: newId,
           codigo: codigo,
           etapa: etapa,
@@ -598,11 +599,12 @@
           obsDespues: "",
           fechaDespues: "",
           usuarioRegistra: currentUser
-        });
+        };
 
         const response = await fetch(WEB_APP_URL, {
           method: "POST",
-          body: bodyData
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
         });
         
         const res = await response.json();
@@ -615,7 +617,7 @@
           document.getElementById("preview-antes").style.display = "none";
           await sincronizarConSheets();
         } else {
-          alert("Error al guardar en el servidor: " + res.error);
+          alert("Error al guardar en el servidor: " + (res.error || res.message));
         }
       } catch (e) {
         alert("Error de conexión al guardar el registro.");
@@ -705,16 +707,17 @@
         let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
         const fechaDespues = new Date().toLocaleString();
 
-        const bodyData = new URLSearchParams({
+        const payload = {
           id: String(id).trim(),
           fotoDespues: fotoBase64,
           obsDespues: obsDespues,
           fechaDespues: fechaDespues
-        });
+        };
 
         const response = await fetch(WEB_APP_URL, {
           method: "POST",
-          body: bodyData
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
         });
 
         const res = await response.json();
@@ -724,7 +727,7 @@
           cerrarModal();
           await sincronizarConSheets();
         } else {
-          alert("Error al actualizar en Excel: " + res.error);
+          alert("Error al actualizar: " + (res.error || res.message));
         }
       } catch (e) {
         alert("Error de conexión al guardar la foto del después.");
