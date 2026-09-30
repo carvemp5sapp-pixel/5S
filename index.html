@@ -365,10 +365,25 @@
       <div class="card">
         <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Registrar nuevo hallazgo</h3>
 
-        <div class="form-group">
-          <label>Código de máquina o área:</label>
-          <input type="text" id="codigo" placeholder="Ejemplo: MQ35038 o Imprenta">
-        </div>
+<div class="form-group">
+  <label for="codigo">Área:</label>
+  <select id="codigo">
+    <option value="">Seleccione un área</option>
+    <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+    <option value="PERIFERICOS">PERIFERICOS</option>
+    <option value="TERMOFORMADO">TERMOFORMADO</option>
+    <option value="ESPUMADO">ESPUMADO</option>
+    <option value="METALICA">METALICA</option>
+    <option value="EXTRUSION">EXTRUSION</option>
+    <option value="CARTON">CARTON</option>
+    <option value="MOLDES">MOLDES</option>
+    <option value="BODEGA MP">BODEGA MP</option>
+    <option value="BODEGA PT">BODEGA PT</option>
+    <option value="MOLINO">MOLINO</option>
+    <option value="PASILLOS">PASILLOS</option>
+  </select>
+</div>
+
 
         <div class="form-group">
           <label>Etapa 5S:</label>
