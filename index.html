@@ -616,9 +616,9 @@
           usuarioRegistra: currentUser
         };
 
-        const response = await fetch(WEB_APP_URL, {
+        const response = await fetch("https://default3d4d7762e0e14b1e9cccafb45486f7.37.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/25/workflows/f72ef28f6d744267b4cfcf4db7438baf/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=hLMamEUK2Yq0KB_mEvzUjcd2IxiSu3Ai35lH9herd6E", {
           method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
         });
         
