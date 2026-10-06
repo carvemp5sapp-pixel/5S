@@ -478,49 +478,60 @@
       sincronizarConSheets();
     }
 
-    async function validarLogin() {
-      const u = document.getElementById("login-user").value.trim();
-      const p = document.getElementById("login-pass").value.trim();
-      const msg = document.getElementById("login-msg");
-      const btn = document.getElementById("btn-login");
+   async function validarLogin() {
+  const u = document.getElementById("login-user").value.trim();
+  const p = document.getElementById("login-pass").value.trim();
+  const msg = document.getElementById("login-msg");
+  const btn = document.getElementById("btn-login");
 
-      if (!u || !p) {
-        msg.style.color = "red";
-        msg.innerText = "Por favor ingrese usuario y contraseña.";
-        return;
-      }
+  if (!u || !p) {
+    msg.style.color = "red";
+    msg.innerText = "Por favor ingrese usuario y contraseña.";
+    return;
+  }
 
-      btn.disabled = true;
-      msg.style.color = "#005696";
-      msg.innerText = "Validando credenciales...";
+  btn.disabled = true;
+  msg.style.color = "#005696";
+  msg.innerText = "Validando credenciales...";
 
-      try {
-       const payload = { action: "login", usuario: u, password: p };
+  try {
+    const payload = {
+      action: "login",
+      usuario: u,
+      password: p
+    };
 
-const loginResponse = await fetch(WEB_APP_URL, {
-  method: "POST",
-  headers: { "Content-Type": "text/plain;charset=utf-8" },
-  body: JSON.stringify(payload)
-});
+    const loginResponse = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(payload)
+    });
 
-        const res = await response.json();
+    const res = await loginResponse.json();
 
-        if (res.result === "success") {
-          currentUser = u;
-          localStorage.setItem("usuario_5s", u);
-          msg.innerText = "";
-          mostrarApp();
-        } else {
-          msg.style.color = "red";
-          msg.innerText = res.message || "Usuario o contraseña incorrectos.";
-        }
-      } catch (err) {
-        msg.style.color = "red";
-        msg.innerText = "Error de conexión. Intente nuevamente.";
-      } finally {
-        btn.disabled = false;
-      }
+    if (res.result === "success") {
+      currentUser = u;
+      localStorage.setItem("usuario_5s", u);
+      msg.innerText = "";
+      mostrarApp();
+    } else {
+      msg.style.color = "red";
+      msg.innerText =
+        res.message || "Usuario o contraseña incorrectos.";
     }
+
+  } catch (err) {
+    console.error("Error en validarLogin:", err);
+    msg.style.color = "red";
+    msg.innerText = "Error de conexión. Intente nuevamente.";
+
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 
     function cerrarSesion() {
       localStorage.removeItem("usuario_5s");
