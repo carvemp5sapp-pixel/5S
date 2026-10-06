@@ -451,18 +451,27 @@
   </div>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbysWNN1TxlKwyLF5h6m7SbgbElEo38kJgnhMRSFdopsl2oBemqy3NeMb_EV8YcxkxdA6w/exec";
-    let currentUser = localStorage.getItem("usuario_5s") || "";
-    let historialVisible = false;
+ // URL del flujo de Power Automate que validará el inicio de sesión.
+// Todavía no la llenamos.
+const POWER_AUTOMATE_LOGIN_URL =
+  "PEGAR_AQUI_URL_LOGIN_POWER_AUTOMATE";
 
-    document.addEventListener("DOMContentLoaded", function() {
-      if (currentUser) {
-        mostrarApp();
-      } else {
-        mostrarLogin();
-      }
-    });
+// URL antigua de Google Apps Script.
+// La conservamos temporalmente para las demás funciones.
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbysWNN1TxlKwyLF5h6m7SbgbElEo38kJgnhMRSFdopsl2oBemqy3NeMb_EV8YcxkxdA6w/exec";
 
+let currentUser = localStorage.getItem("usuario_5s") || "";
+let historialVisible = false;
+
+document.addEventListener("DOMContentLoaded", function () {
+  if (currentUser) {
+    mostrarApp();
+  } else {
+    mostrarLogin();
+  }
+});
+    
     function mostrarLogin() {
       document.getElementById("login-screen").style.display = "block";
       document.getElementById("app-content").style.display = "none";
