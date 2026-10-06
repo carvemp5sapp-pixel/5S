@@ -755,12 +755,33 @@
     async function sincronizarConSheets() {
       try {
         const response = await fetch(WEB_APP_URL);
-        const data = await response.json();
-        
-        if (Array.isArray(data)) {
-          localStorage.setItem("hallazgos_5s", JSON.stringify(data.reverse()));
-          cargarRegistrosLocales();
-        }
+const response = await fetch(WEB_APP_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(payload)
+});
+
+const texto = await response.text();
+
+let data = {};
+
+try {
+  data = texto ? JSON.parse(texto) : {};
+} catch (e) {
+  console.log("Respuesta recibida:", texto);
+}
+
+if (response.ok) {
+  console.log(data.mensaje || "Guardado correctamente");
+} else {
+  console.log(
+    "Error al guardar en el servidor:",
+    data.error || data.mensaje || "Error desconocido"
+  );
+}
+
       } catch (err) {
         console.log("Error al sincronizar datos:", err);
       }
