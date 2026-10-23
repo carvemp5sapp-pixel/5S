@@ -590,8 +590,9 @@ const area = document.getElementById("area").value.trim();
       const fotoInput = document.getElementById("fotoAntes");
       const btn = document.getElementById("btn-guardar");
 
-      if (!codigo || !obsAntes || fotoInput.files.length === 0) {
-        alert("Por favor ingrese el código, la observación y la fotografía del ANTES.");
+      if (!area || !obsAntes || fotoInput.files.length === 0) {
+  alert("Por favor seleccione el área, ingrese la observación y cargue la fotografía del ANTES.");
+
         return;
       }
 
@@ -605,7 +606,7 @@ const area = document.getElementById("area").value.trim();
 
         const payload = {
           id: newId,
-          codigo: codigo,
+          area: area,
           etapa: etapa,
           fotoAntes: fotoBase64,
           obsAntes: obsAntes,
@@ -626,7 +627,7 @@ const area = document.getElementById("area").value.trim();
 
         if (res.result === "success") {
           alert("Hallazgo guardado exitosamente.");
-          document.getElementById("codigo").value = "";
+          document.getElementById("area").value = "";
           document.getElementById("obsAntes").value = "";
           fotoInput.value = "";
           document.getElementById("preview-antes").style.display = "none";
@@ -661,7 +662,7 @@ const area = document.getElementById("area").value.trim();
         return `
           <div class="hallazgo-card ${claseEstado}">
             <div class="hallazgo-header">
-              <span class="ubicacion">Área / Código: ${item.codigo}</span>
+              <span class="ubicacion">Área / Código: ${item.area}</span>
               <span class="etapa">${item.etapa}</span>
             </div>
             
