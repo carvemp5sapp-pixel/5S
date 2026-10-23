@@ -366,8 +366,8 @@
         <h3 style="margin-top:0; color: var(--primary-color); font-size: 1.1rem;">Registrar nuevo hallazgo</h3>
 
 <div class="form-group">
-  <label for="codigo">Área:</label>
-  <select id="codigo">
+  <label for="area">Área:</label>
+  <select id="area">
     <option value="">Seleccione un área</option>
     <option value="MANTENIMIENTO">MANTENIMIENTO</option>
     <option value="PERIFERICOS">PERIFERICOS</option>
@@ -584,7 +584,7 @@
     }
 
     async function guardarNuevoHallazgo() {
-      const codigo = document.getElementById("codigo").value.trim();
+const area = document.getElementById("area").value.trim();
       const etapa = document.getElementById("etapa").value;
       const obsAntes = document.getElementById("obsAntes").value.trim();
       const fotoInput = document.getElementById("fotoAntes");
