@@ -619,13 +619,22 @@ const area = document.getElementById("area").value.trim();
           usuarioRegistra: currentUser
         };
 
-        const response = await fetch(WEB_APP_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-        
-        const res = await response.json();
+const response = await fetch(POWER_AUTOMATE_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(payload)
+});
+
+if (!response.ok) {
+  throw new Error("Error HTTP: " + response.status);
+}
+
+const res = {
+  result: "success"
+};
+
 
         if (res.result === "success") {
           alert("Hallazgo guardado exitosamente.");
