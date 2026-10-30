@@ -397,11 +397,17 @@
           </select>
         </div>
 
-        <div class="form-group">
-          <label>Fotografía del ANTES:</label>
-          <input type="file" id="fotoAntes" accept="image/*" capture="environment" onchange="previewImagen(this, 'preview-antes')">
-          <img id="preview-antes" class="img-preview">
-        </div>
+<div class="form-group">
+  <label>Fotografía del ANTES:</label>
+  <input 
+    type="file"
+    id="fotoAntes"
+    accept="image/*"
+    capture="environment"
+    onchange="previewImagen(this, 'preview-antes')"
+  >
+  <img id="preview-antes" class="img-preview">
+</div>
 
         <div class="form-group">
           <label>Observación o hallazgo:</label>
@@ -786,21 +792,44 @@ const res = {
       contenedor.style.display = estadoPrevio;
     }
   </script>
-  <script>
-  const URL_FLUJO = "https://default3d4d7762e0e14b1e9cccafb45486f7.37.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/07/workflows/7607ca4d7fd248e2a29ddff99f92ec2f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=h0LaZOZs0l3oEkim1BwrEqBQAeLPq7G26KlvnMdjcPQ";
+ <script>
+  const URL_FLUJO = "TU_URL_DEL_FLUJO";
+
+  function convertirArchivoABase64(input) {
+    return new Promise((resolve, reject) => {
+      const archivo = input.files[0];
+
+      if (!archivo) {
+        resolve(null);
+        return;
+      }
+
+      const lector = new FileReader();
+
+      lector.onload = () => resolve(lector.result);
+      lector.onerror = error => reject(error);
+
+      lector.readAsDataURL(archivo);
+    });
+  }
 
   async function enviarRegistro() {
-    const datos = {
-      id: document.getElementById("id").value,
-      area: document.getElementById("area").value,
-      etapa: document.getElementById("etapa").value,
-      obsAntes: document.getElementById("obsAntes").value,
-      fechaAntes: document.getElementById("fechaAntes").value,
-      usuarioRegistra: document.getElementById("usuarioRegistra").value,
-      fotoAntes: ""
-    };
-
     try {
+      const campoFoto = document.getElementById("fotoAntes");
+
+      // Convierte la fotografía seleccionada a Base64
+      const fotoAntes = await convertirArchivoABase64(campoFoto);
+
+      const datos = {
+        id: document.getElementById("id").value,
+        area: document.getElementById("area").value,
+        etapa: document.getElementById("etapa").value,
+        obsAntes: document.getElementById("obsAntes").value,
+        fechaAntes: document.getElementById("fechaAntes").value,
+        usuarioRegistra: document.getElementById("usuarioRegistra").value,
+        fotoAntes: fotoAntes
+      };
+
       const respuesta = await fetch(URL_FLUJO, {
         method: "POST",
         headers: {
@@ -814,12 +843,10 @@ const res = {
       }
 
       alert("Registro enviado correctamente.");
+
     } catch (error) {
       console.error(error);
       alert("No fue posible enviar el registro.");
     }
   }
 </script>
-
-</body>
-</html>
