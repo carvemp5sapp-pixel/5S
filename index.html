@@ -705,7 +705,7 @@ const res = {
               <div class="bloque-foto">
                 <strong>DESPUÉS ${item.fechaDespues ? `(${item.fechaDespues})` : ''}</strong>
                 ${!esPendiente ? `
-                  <img src="${item.fotoDespues}">
+                <img src="${formatearUrlFoto(item.fotoDespues)}">
                   <p>${item.obsDespues}</p>
                 ` : `
                   <div style="text-align:center; padding: 15px 0;">
