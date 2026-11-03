@@ -767,20 +767,33 @@ const response = await fetch("https://default3d4d7762e0e14b1e9cccafb45486f7.37.e
       }
     }
 
-    async function sincronizarConSheets() {
-      try {
-        const response = await fetch("https://default3d4d7762e0e14b1e9cccafb45486f7.37.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/07/workflows/6d8e6844d2b54283bb77bc89e4559772/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=okBzq6ZrdwfNLbOMXP95-HMZWIy1QPlNlSgo75m6AZE");
-        const data = await response.json();
-        
-        if (Array.isArray(data)) {
-          localStorage.setItem("hallazgos_5s", JSON.stringify(data.reverse()));
-          cargarRegistrosLocales();
-        }
-      } catch (err) {
-        console.log("Error al sincronizar datos:", err);
-      }
-    }
+async function sincronizarConSheets() {
+  try {
+    const response = await fetch("https://default3d4d7762e0e14b1e9cccafb45486f7.37.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/07/workflows/6d8e6844d2b54283bb77bc89e4559772/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=okBzq6ZrdwfNLbOMXP95-HMZWIy1QPlNlSgo75m6AZE");
+    const json = await response.json();
+    const data = json.body;
 
+    if (Array.isArray(data)) {
+      const registros = data.map(item => ({
+        id: item["ID"],
+        area: item["AREA"],
+        etapa: item["ETAPA 5S"],
+        fotoAntes: item["FOTO ANTES"],
+        obsAntes: item["OBSERVACION ANTES"],
+        fechaAntes: item["FECHA ANTES"],
+        fotoDespues: item["FOTO DESPUES"],
+        obsDespues: item["OBSERVACION DESPUES"],
+        fechaDespues: item["FECHA DESPUES"],
+        registradoPor: item["REGISTRADO POR"]
+      }));
+
+      localStorage.setItem("hallazgos_5s", JSON.stringify(registros.reverse()));
+      cargarRegistrosLocales();
+    }
+  } catch (err) {
+    console.log("Error al sincronizar datos:", err);
+  }
+}
     function exportarPDF() {
       const contenedor = document.getElementById("contenedor-historial");
       const estadoPrevio = contenedor.style.display;
