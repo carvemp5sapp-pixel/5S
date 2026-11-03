@@ -500,16 +500,16 @@
       msg.style.color = "#005696";
       msg.innerText = "Validando credenciales...";
 
-      try {
-        const payload = { action: "login", usuario: u, password: p };
-        const response = await fetch(WEB_APP_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-        const res = await response.json();
+     try {
+  const payload = { usuario: u, contrasena: p };
+  const response = await fetch("https://default3d4d7762e0e14b1e9cccafb45486f7.37.environment.api.powerplatform.com:443/powerautomate/automations/direct/cu/17/workflows/45ac6874b335407cb3497267f18feae8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=JZuhE4X-Go1fK6yPXoewCLFqySvI3MSRrxyoVVB20AI", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+  const res = await response.json();
 
-        if (res.result === "success") {
+  if (res.result === "success") {
           currentUser = u;
           localStorage.setItem("usuario_5s", u);
           msg.innerText = "";
