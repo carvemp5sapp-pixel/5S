@@ -666,11 +666,7 @@ const res = {
       }
       return url;
     }
-
-    function cargarRegistrosLocales() {
-      const lista = document.getElementById("lista-hallazgos");
-      
-    function cargarRegistrosLocales() {
+      function cargarRegistrosLocales() {
       const lista = document.getElementById("lista-hallazgos");
       const registros = JSON.parse(localStorage.getItem("hallazgos_5s") || "[]");
 
@@ -678,7 +674,6 @@ const res = {
         lista.innerHTML = "<p style='text-align:center; color:#777;'>No hay hallazgos registrados.</p>";
         return;
       }
-
       lista.innerHTML = registros.map(item => {
         const esPendiente = !item.fotoDespues || String(item.fotoDespues).trim() === "";
         const claseEstado = esPendiente ? "estado-pendiente" : "estado-completado";
@@ -719,12 +714,10 @@ const res = {
         `;
       }).join('');
     }
-
     function abrirModalDespues(id) {
       document.getElementById("modal-id").value = id;
       document.getElementById("modal-despues").style.display = "flex";
     }
-
     function cerrarModal() {
       document.getElementById("modal-despues").style.display = "none";
       document.getElementById("fotoDespues").value = "";
