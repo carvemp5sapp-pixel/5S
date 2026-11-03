@@ -795,9 +795,8 @@ async function sincronizarConSheets() {
         fotoDespues: item["FOTO DESPUES"],
         obsDespues: item["OBSERVACION DESPUES"],
         fechaDespues: item["FECHA DESPUES"],
-        registradoPor: item["REGISTRADO POR"]
+        usuarioRegistra: item["REGISTRADO POR"]
       }));
-
       localStorage.setItem("hallazgos_5s", JSON.stringify(registros.reverse()));
       cargarRegistrosLocales();
     }
