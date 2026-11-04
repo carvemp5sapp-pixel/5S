@@ -754,14 +754,13 @@ const response = await fetch("https://default3d4d7762e0e14b1e9cccafb45486f7.37.e
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(payload)
 });
-        const res = await response.json();
-
-        if (res.result === "success") {
+        if (response.ok) {
           alert("Foto del DESPUÉS guardada exitosamente.");
           cerrarModal();
+          await new Promise(r => setTimeout(r, 2000));
           await sincronizarConSheets();
         } else {
-          alert("Error al actualizar: " + (res.error || res.message));
+          alert("Error al actualizar. Código: " + response.status);
         }
       } catch (e) {
         alert("Error de conexión al guardar la foto del después.");
