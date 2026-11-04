@@ -652,7 +652,8 @@ const res = {
           alert("Error al guardar en el servidor: " + (res.error || res.message));
         }
       } catch (e) {
-        alert("Error de conexión al guardar el registro.");
+        console.error("Error real:", e);
+        alert("Error de conexión al guardar la foto del después.");
       } finally {
         btn.disabled = false;
         btn.innerText = "GUARDAR HALLAZGO";
