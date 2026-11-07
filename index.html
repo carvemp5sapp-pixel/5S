@@ -743,7 +743,7 @@ const res = {
       try {
         let fotoBase64 = await comprimirImagen(fotoInput.files[0]);
         const fechaDespues = new Date().toLocaleString();
-
+        console.log("ID capturado:", id); 
         const payload = {
           id: String(id).trim(),
           fotoDespues: fotoBase64,
